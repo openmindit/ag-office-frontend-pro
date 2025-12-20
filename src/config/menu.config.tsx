@@ -46,10 +46,10 @@ export const MENU_SECTIONS: MenuSection[] = [
     key: "catalogue",
     label: "Catalogue",
     items: [
-      { key: "suppliers", name: "suppliers", icon: <GridIcon />, path:"/suppliers" },
-      { key: "products", name: "products", icon: <GridIcon />, path:"/products" },
-      { key: "contracts", name: "contracts", icon: <GridIcon />, path:"/contracts"  },
-      { key: "packages", name: "packages", icon: <GridIcon />, path:"/packages"  },
+      { key: "suppliers", name: "suppliers", icon: <GridIcon />, path:"/suppliers", permissions: ["suppliers:read"] },
+      { key: "products", name: "products", icon: <GridIcon />, path:"/products", permissions: ["products:read"]  },
+      { key: "contracts", name: "contracts", icon: <GridIcon />, path:"/contracts", permissions: ["contracts:read"]   },
+      { key: "packages", name: "packages", icon: <GridIcon />, path:"/packages", permissions: ["packages:read"]   },
     ],
   },
   {
@@ -86,10 +86,10 @@ export const MENU_SECTIONS: MenuSection[] = [
         name: "administration",
         icon: <GridIcon />,
         subItems: [
-              { key: "administration-users", name: "users", icon: <GridIcon />, path: "/users",},
-              { key: "administration-roles", name: "roles", icon: <GridIcon />, path: "/roles" },
-              { key: "administration-permissions", name: "permissions", icon: <GridIcon />, path: "/permissions" },
-              { key: "administration-ressources", name: "ressources", icon: <GridIcon />, path: "/ressources" },
+              { key: "administration-users", name: "users", icon: <GridIcon />, path: "/users", permissions: ["users:read"]},
+              { key: "administration-roles", name: "roles", icon: <GridIcon />, path: "/roles", permissions: ["roles:read"] },
+              { key: "administration-permissions", name: "permissions", icon: <GridIcon />, path: "/permissions", permissions: ["permissions:read"] },
+              { key: "administration-ressources", name: "ressources", icon: <GridIcon />, path: "/ressources", permissions: ["ressources:read"] },
         ]
         },
     ],

@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { User } from "../types/api.types";
 
+
 interface AuthState {
   user: User | null;
   token: string | null;
@@ -24,6 +25,7 @@ export const useAuthStore = create<AuthState>()(
       permissionsLoaded: false,
 
       login: (user, token, permissions) => {
+        localStorage.setItem("access_token", token);
         set({
           user,
           token,

@@ -17,6 +17,6 @@ export const loginAndLoadContext = async (
   const permissions = await authService.getMyPermissions();
 
   // 🧠 hydrater le store
-  useAuthStore.getState().login(user, access_token);
-  useAuthStore.getState().setPermissions(permissions);
+  useAuthStore.getState().login(user, access_token, permissions);
+
 };
