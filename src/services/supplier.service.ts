@@ -1,5 +1,5 @@
 import {apiClient} from './apiClient';
-import type { Supplier, SupplierWithContacts, PaginatedResponse } from '@/types/api.types';
+import type { Supplier, SupplierWithContacts, PaginatedResponse } from '../types/api.types';
 import { APP_CONFIG } from '../config/app.config';
 
 export interface SupplierFilters {

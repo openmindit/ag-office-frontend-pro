@@ -78,6 +78,7 @@ import TicketList from "./pages/Support/TicketList";
 import TicketReply from "./pages/Support/TicketReply";
 import Integrations from "./pages/OtherPage/Integrations";
 import ApiKeys from "./pages/OtherPage/ApiKeys";
+import SuppliersList from "./pages/Suppliers/SuppliersList";
 
 export default function App() {
   return (
@@ -94,6 +95,7 @@ export default function App() {
           {/* ================= PROTECTED ================= */}
           <Route element={<ProtectedRoute />}>
               <Route element={<AppLayout />}>
+                <Route path="/suppliers" element={<SuppliersList />} />
                 <Route index path="/" element={<Ecommerce />} />
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/marketing" element={<Marketing />} />

@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react";
+import {FormEvent, useEffect, useState} from "react";
 import { Link, useLocation, useNavigate } from "react-router";
-import type { Location } from "react-router";
 import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "../../icons";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
 import Checkbox from "../form/input/Checkbox";
 import Button from "../ui/button/Button";
-import { authService } from "../../services/auth.service";
 import { useAuthStore } from "../../stores/auth.store";
 import { loginAndLoadContext } from "../../context/AuthContext";
 
