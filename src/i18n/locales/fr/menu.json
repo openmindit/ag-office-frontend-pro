@@ -1,0 +1,21 @@
+{
+  "follow up" : "suivi",
+  "dashboard": "tableau de bord",
+  "tasks": "tâches",
+  "reminders": "rappels",
+  "calendar": "calendrier",
+  "kanbans" : "kanbans",
+  "suppliers": "fournisseurs" ,
+  "products": "produits",
+  "contracts" : "contrats",
+  "packages": "packages",
+  "clients" : "clients",
+  "booking files" : "dossier",
+  "quotes" : "devis",
+  "bookings" : "reservations",
+  "vouchers" : "vouchers",
+  "users": "utilisateurs",
+  "settings": "paramètres",
+  "User Profile": "profil utilisateur"
+
+}
