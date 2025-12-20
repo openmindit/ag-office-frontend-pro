@@ -14,7 +14,7 @@ export default function SuppliersList() {
   const fetchSuppliers = async () => {
     setLoading(true);
     try {
-      const { data } = await supplierService.getSuppliers({
+      const data = await supplierService.getSuppliers({
         skip: (page - 1) * pageSize,
         limit: pageSize,
         search,

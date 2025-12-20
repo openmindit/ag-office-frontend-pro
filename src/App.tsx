@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router";
+import {BrowserRouter as Router, Routes, Route} from "react-router";
 import ProtectedRoute from "./auth/ProtectedRoute";
 
 import Ecommerce from "./pages/Dashboard/Ecommerce";
@@ -59,7 +59,7 @@ import TwoStepVerification from "./pages/AuthPages/TwoStepVerification";
 import Success from "./pages/OtherPage/Success";
 import AppLayout from "./layout/AppLayout";
 import AlternativeLayout from "./layout/AlternativeLayout";
-import { ScrollToTop } from "./components/common/ScrollToTop";
+import {ScrollToTop} from "./components/common/ScrollToTop";
 import TaskList from "./pages/Task/TaskList";
 import Saas from "./pages/Dashboard/Saas";
 import Logistics from "./pages/Dashboard/Logistics";
@@ -79,123 +79,125 @@ import TicketReply from "./pages/Support/TicketReply";
 import Integrations from "./pages/OtherPage/Integrations";
 import ApiKeys from "./pages/OtherPage/ApiKeys";
 import SuppliersList from "./pages/Suppliers/SuppliersList";
+import SupplierDetails from "./pages/Suppliers/SupplierDetails";
 
 export default function App() {
-  return (
-    <>
-      <Router>
-        <ScrollToTop />
-        <Routes>
-          {/* ================= PUBLIC ================= */}
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/two-step-verification" element={<TwoStepVerification />} />
+    return (
+        <>
+            <Router>
+                <ScrollToTop/>
+                <Routes>
+                    {/* ================= PUBLIC ================= */}
+                    <Route path="/signin" element={<SignIn/>}/>
+                    <Route path="/signup" element={<SignUp/>}/>
+                    <Route path="/reset-password" element={<ResetPassword/>}/>
+                    <Route path="/two-step-verification" element={<TwoStepVerification/>}/>
 
-          {/* ================= PROTECTED ================= */}
-          <Route element={<ProtectedRoute />}>
-              <Route element={<AppLayout />}>
-                <Route path="/suppliers" element={<SuppliersList />} />
-                <Route index path="/" element={<Ecommerce />} />
-                <Route path="/analytics" element={<Analytics />} />
-                <Route path="/marketing" element={<Marketing />} />
-                <Route path="/crm" element={<Crm />} />
-                <Route path="/stocks" element={<Stocks />} />
-                <Route path="/saas" element={<Saas />} />
-                <Route path="/logistics" element={<Logistics />} />
+                    {/* ================= PROTECTED ================= */}
+                    <Route element={<ProtectedRoute/>}>
+                        <Route element={<AppLayout/>}>
+                            <Route path="/suppliers" element={<SuppliersList/>}/>
+                            <Route path="/suppliers/:supplierId" element={<SupplierDetails/>}/>
+                            <Route index path="/" element={<Ecommerce/>}/>
+                            <Route path="/analytics" element={<Analytics/>}/>
+                            <Route path="/marketing" element={<Marketing/>}/>
+                            <Route path="/crm" element={<Crm/>}/>
+                            <Route path="/stocks" element={<Stocks/>}/>
+                            <Route path="/saas" element={<Saas/>}/>
+                            <Route path="/logistics" element={<Logistics/>}/>
 
-                <Route path="/calendar" element={<Calendar />} />
-                <Route path="/invoice" element={<Invoices />} />
-                <Route path="/invoices" element={<Invoices />} />
-                <Route path="/chat" element={<Chats />} />
-                <Route path="/file-manager" element={<FileManager />} />
+                            <Route path="/calendar" element={<Calendar/>}/>
+                            <Route path="/invoice" element={<Invoices/>}/>
+                            <Route path="/invoices" element={<Invoices/>}/>
+                            <Route path="/chat" element={<Chats/>}/>
+                            <Route path="/file-manager" element={<FileManager/>}/>
 
-                {/* E-commerce */}
-                <Route path="/products-list" element={<ProductList />} />
-                <Route path="/add-product" element={<AddProduct />} />
-                <Route path="/billing" element={<Billing />} />
-                <Route path="/single-invoice" element={<SingleInvoice />} />
-                <Route path="/create-invoice" element={<CreateInvoice />} />
-                <Route path="/transactions" element={<Transactions />} />
-                <Route path="/single-transaction" element={<SingleTransaction />} />
+                            {/* E-commerce */}
+                            <Route path="/products-list" element={<ProductList/>}/>
+                            <Route path="/add-product" element={<AddProduct/>}/>
+                            <Route path="/billing" element={<Billing/>}/>
+                            <Route path="/single-invoice" element={<SingleInvoice/>}/>
+                            <Route path="/create-invoice" element={<CreateInvoice/>}/>
+                            <Route path="/transactions" element={<Transactions/>}/>
+                            <Route path="/single-transaction" element={<SingleTransaction/>}/>
 
-                {/* Support */}
-                <Route path="/support-tickets" element={<TicketList />} />
-                <Route path="/support-ticket-reply" element={<TicketReply />} />
+                            {/* Support */}
+                            <Route path="/support-tickets" element={<TicketList/>}/>
+                            <Route path="/support-ticket-reply" element={<TicketReply/>}/>
 
-                {/* Others Page */}
-                <Route path="/profile" element={<UserProfiles />} />
-                <Route path="/faq" element={<Faqs />} />
-                <Route path="/pricing-tables" element={<PricingTables />} />
-                <Route path="/integrations" element={<Integrations />} />
-                <Route path="/api-keys" element={<ApiKeys />} />
-                <Route path="/blank" element={<Blank />} />
+                            {/* Others Page */}
+                            <Route path="/profile" element={<UserProfiles/>}/>
+                            <Route path="/faq" element={<Faqs/>}/>
+                            <Route path="/pricing-tables" element={<PricingTables/>}/>
+                            <Route path="/integrations" element={<Integrations/>}/>
+                            <Route path="/api-keys" element={<ApiKeys/>}/>
+                            <Route path="/blank" element={<Blank/>}/>
 
-                {/* Forms */}
-                <Route path="/form-elements" element={<FormElements />} />
-                <Route path="/form-layout" element={<FormLayout />} />
+                            {/* Forms */}
+                            <Route path="/form-elements" element={<FormElements/>}/>
+                            <Route path="/form-layout" element={<FormLayout/>}/>
 
-                {/* Applications */}
-                <Route path="/task-list" element={<TaskList />} />
-                <Route path="/task-kanban" element={<TaskKanban />} />
+                            {/* Applications */}
+                            <Route path="/task-list" element={<TaskList/>}/>
+                            <Route path="/task-kanban" element={<TaskKanban/>}/>
 
-                {/* Email */}
-                <Route path="/inbox" element={<EmailInbox />} />
-                <Route path="/inbox-details" element={<EmailDetails />} />
+                            {/* Email */}
+                            <Route path="/inbox" element={<EmailInbox/>}/>
+                            <Route path="/inbox-details" element={<EmailDetails/>}/>
 
-                {/* Tables */}
-                <Route path="/basic-tables" element={<BasicTables />} />
-                <Route path="/data-tables" element={<DataTables />} />
+                            {/* Tables */}
+                            <Route path="/basic-tables" element={<BasicTables/>}/>
+                            <Route path="/data-tables" element={<DataTables/>}/>
 
-                {/* Ui Elements */}
-                <Route path="/alerts" element={<Alerts />} />
-                <Route path="/avatars" element={<Avatars />} />
-                <Route path="/badge" element={<Badges />} />
-                <Route path="/breadcrumb" element={<BreadCrumb />} />
-                <Route path="/buttons" element={<Buttons />} />
-                <Route path="/buttons-group" element={<ButtonsGroup />} />
-                <Route path="/cards" element={<Cards />} />
-                <Route path="/carousel" element={<Carousel />} />
-                <Route path="/dropdowns" element={<Dropdowns />} />
-                <Route path="/images" element={<Images />} />
-                <Route path="/links" element={<Links />} />
-                <Route path="/list" element={<Lists />} />
-                <Route path="/modals" element={<Modals />} />
-                <Route path="/notifications" element={<Notifications />} />
-                <Route path="/pagination" element={<Pagination />} />
-                <Route path="/popovers" element={<Popovers />} />
-                <Route path="/progress-bar" element={<Progressbar />} />
-                <Route path="/ribbons" element={<Ribbons />} />
-                <Route path="/spinners" element={<Spinners />} />
-                <Route path="/tabs" element={<Tabs />} />
-                <Route path="/tooltips" element={<Tooltips />} />
-                <Route path="/videos" element={<Videos />} />
+                            {/* Ui Elements */}
+                            <Route path="/alerts" element={<Alerts/>}/>
+                            <Route path="/avatars" element={<Avatars/>}/>
+                            <Route path="/badge" element={<Badges/>}/>
+                            <Route path="/breadcrumb" element={<BreadCrumb/>}/>
+                            <Route path="/buttons" element={<Buttons/>}/>
+                            <Route path="/buttons-group" element={<ButtonsGroup/>}/>
+                            <Route path="/cards" element={<Cards/>}/>
+                            <Route path="/carousel" element={<Carousel/>}/>
+                            <Route path="/dropdowns" element={<Dropdowns/>}/>
+                            <Route path="/images" element={<Images/>}/>
+                            <Route path="/links" element={<Links/>}/>
+                            <Route path="/list" element={<Lists/>}/>
+                            <Route path="/modals" element={<Modals/>}/>
+                            <Route path="/notifications" element={<Notifications/>}/>
+                            <Route path="/pagination" element={<Pagination/>}/>
+                            <Route path="/popovers" element={<Popovers/>}/>
+                            <Route path="/progress-bar" element={<Progressbar/>}/>
+                            <Route path="/ribbons" element={<Ribbons/>}/>
+                            <Route path="/spinners" element={<Spinners/>}/>
+                            <Route path="/tabs" element={<Tabs/>}/>
+                            <Route path="/tooltips" element={<Tooltips/>}/>
+                            <Route path="/videos" element={<Videos/>}/>
 
-                {/* Charts */}
-                <Route path="/line-chart" element={<LineChart />} />
-                <Route path="/bar-chart" element={<BarChart />} />
-                <Route path="/pie-chart" element={<PieChart />} />
-              </Route>
+                            {/* Charts */}
+                            <Route path="/line-chart" element={<LineChart/>}/>
+                            <Route path="/bar-chart" element={<BarChart/>}/>
+                            <Route path="/pie-chart" element={<PieChart/>}/>
+                        </Route>
 
-              {/* Alternative Layout - for special pages */}
-              <Route element={<AlternativeLayout />}>
-                {/* AI Generator */}
-                <Route path="/text-generator" element={<TextGeneratorPage />} />
-                <Route path="/image-generator" element={<ImageGeneratorPage />} />
-                <Route path="/code-generator" element={<CodeGeneratorPage />} />
-                <Route path="/video-generator" element={<VideoGeneratorPage />} />
-              </Route>
+                        {/* Alternative Layout - for special pages */}
+                        <Route element={<AlternativeLayout/>}>
+                            {/* AI Generator */}
+                            <Route path="/text-generator" element={<TextGeneratorPage/>}/>
+                            <Route path="/image-generator" element={<ImageGeneratorPage/>}/>
+                            <Route path="/code-generator" element={<CodeGeneratorPage/>}/>
+                            <Route path="/video-generator" element={<VideoGeneratorPage/>}/>
+                        </Route>
 
-              {/* Fallback Route */}
-              <Route path="*" element={<NotFound />} />
-              <Route path="/maintenance" element={<Maintenance />} />
-              <Route path="/success" element={<Success />} />
-              <Route path="/five-zero-zero" element={<FiveZeroZero />} />
-              <Route path="/five-zero-three" element={<FiveZeroThree />} />
-              <Route path="/coming-soon" element={<ComingSoon />} />
-           </Route>
-        </Routes>
-      </Router>
-    </>
-  );
+                        {/* Fallback Route */}
+                        <Route path="*" element={<NotFound/>}/>
+                        <Route path="/maintenance" element={<Maintenance/>}/>
+                        <Route path="/success" element={<Success/>}/>
+                        <Route path="/five-zero-zero" element={<FiveZeroZero/>}/>
+                        <Route path="/five-zero-three" element={<FiveZeroThree/>}/>
+                        <Route path="/coming-soon" element={<ComingSoon/>}/>
+                    </Route>
+                </Routes>
+            </Router>
+        </>
+    );
 }

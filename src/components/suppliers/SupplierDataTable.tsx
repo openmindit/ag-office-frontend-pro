@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router";
 import {
   Table,
   TableBody,
@@ -36,7 +37,7 @@ export default function SupplierDataTable({
   total,
   onPageChange,
 }: SupplierDataTableProps) {
-  const [isChecked, setIsChecked] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   const startIndex = total === 0 ? 0 : (page - 1) * pageSize + 1;
@@ -54,7 +55,29 @@ export default function SupplierDataTable({
     const newRowsPerPage = Number(e.target.value);
     onPageSizeChange(newRowsPerPage);
   };
+  const allSelected =
+    suppliers.length > 0 &&
+    suppliers.every((supplier) => selectedIds.has(supplier.id));
 
+  const handleToggleAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedIds(new Set(suppliers.map((supplier) => supplier.id)));
+      return;
+    }
+    setSelectedIds(new Set());
+  };
+
+  const handleToggleRow = (supplierId: string) => (checked: boolean) => {
+    setSelectedIds((prevSelected) => {
+      const nextSelected = new Set(prevSelected);
+      if (checked) {
+        nextSelected.add(supplierId);
+      } else {
+        nextSelected.delete(supplierId);
+      }
+      return nextSelected;
+    });
+  };
   return (
     <div className="overflow-hidden rounded-xl bg-white dark:bg-white/[0.03]">
       <div className="flex flex-col gap-2 border border-b-0 border-gray-100 px-4 py-4 dark:border-white/[0.05] rounded-t-xl sm:flex-row sm:items-center sm:justify-between">
@@ -167,7 +190,7 @@ export default function SupplierDataTable({
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex gap-3">
-                      <Checkbox checked={isChecked} onChange={setIsChecked} />
+                      <Checkbox checked={allSelected} onChange={handleToggleAll} />
                       <span className="font-medium text-gray-700 text-theme-xs dark:text-gray-400">
                         Supplier
                       </span>
@@ -229,17 +252,33 @@ export default function SupplierDataTable({
                   </TableCell>
                 </TableRow>
               ) : null}
-              {suppliers.map((supplier) => (
-                <TableRow key={supplier.id}>
+              {suppliers.map((supplier) => {
+                const isSelected = selectedIds.has(supplier.id);
+
+                return (
+                  <TableRow
+                    key={supplier.id}
+                    className={
+                      isSelected
+                        ? "bg-brand-50/60 dark:bg-brand-500/10"
+                        : undefined
+                    }
+                  >
                   <TableCell className="px-4 py-4 border border-gray-100 dark:border-white/[0.05] dark:text-white/90 whitespace-nowrap">
                     <div className="flex gap-3">
                       <div className="mt-1">
-                        <Checkbox checked={isChecked} onChange={setIsChecked} />
+                        <Checkbox
+                          checked={isSelected}
+                          onChange={handleToggleRow(supplier.id)}
+                        />
                       </div>
                       <div>
-                        <p className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                        <Link
+                          to={`/suppliers/${supplier.id}`}
+                          className="block font-medium text-gray-800 text-theme-sm hover:text-brand-500 dark:text-white/90 dark:hover:text-brand-400"
+                        >
                           {supplier.name}
-                        </p>
+                        </Link>
                         <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
                           {supplier.code}
                         </span>
@@ -278,7 +317,8 @@ export default function SupplierDataTable({
                     </div>
                   </TableCell>
                 </TableRow>
-              ))}
+                );
+              })}
             </TableBody>
           </Table>
         </div>
