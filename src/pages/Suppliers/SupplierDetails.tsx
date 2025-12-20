@@ -1,16 +1,59 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import PageMeta from "../../components/common/PageMeta";
+import DataTableThree from "../../components/tables/DataTables/TableThree/DataTableThree";
 import { supplierService } from "../../services/supplier.service";
 import type { SupplierWithContacts } from "../../types/api.types";
+
+interface TabItem {
+  id: string;
+  label: string;
+  count?: number;
+}
+
+const TabButton: React.FC<{
+  tab: TabItem;
+  isActive: boolean;
+  onClick: () => void;
+}> = ({ tab, isActive, onClick }) => (
+  <button
+    className={`inline-flex items-center gap-2 border-b-2 px-2.5 py-2 text-sm font-medium transition-colors duration-200 ease-in-out ${
+      isActive
+        ? "text-brand-500 dark:border-brand-400 border-brand-500 dark:text-brand-400"
+        : "bg-transparent text-gray-500 border-transparent hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+    }`}
+    onClick={onClick}
+  >
+    {tab.label}
+    {tab.count !== undefined && (
+      <span className="inline-block items-center justify-center rounded-full bg-brand-50 px-2 py-0.5 text-center text-xs font-medium text-brand-500 dark:bg-brand-500/15 dark:text-brand-400">
+        {tab.count}
+      </span>
+    )}
+  </button>
+);
 
 export default function SupplierDetails() {
   const { supplierId } = useParams();
   const [supplier, setSupplier] = useState<SupplierWithContacts | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+const [activeTab, setActiveTab] = useState<string>("info");
 
+  const tabs = useMemo<TabItem[]>(
+    () => [
+      { id: "info", label: "Info" },
+      {
+        id: "contacts",
+        label: "Contacts list",
+        count: supplier?.contacts?.length ?? 0,
+      },
+      { id: "products", label: "Products list", count: 0 },
+      { id: "files", label: "Files list", count: 0 },
+    ],
+    [supplier?.contacts?.length]
+  );
   useEffect(() => {
     const fetchSupplier = async () => {
       if (!supplierId) {
@@ -22,8 +65,8 @@ export default function SupplierDetails() {
       setLoading(true);
       setError(null);
       try {
-        const { data } = await supplierService.getSupplierById(supplierId);
-        setSupplier(data);
+        const supplierData = await supplierService.getSupplierById(supplierId);
+        setSupplier(supplierData);
       } catch (err) {
         setError("Unable to load supplier details.");
       } finally {
