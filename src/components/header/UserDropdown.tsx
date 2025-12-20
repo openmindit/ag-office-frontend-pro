@@ -8,6 +8,13 @@ export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const logout = useAuthStore((state) => state.logout);
+  const user = useAuthStore((state) => state.user);
+
+  const displayName = user?.full_name ?? "Utilisateur";
+  const displayEmail = user?.email ?? "";
+  const displayRole = user?.role
+    ? user.role.charAt(0).toUpperCase() + user.role.slice(1).toLowerCase()
+    : "";
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
@@ -33,7 +40,9 @@ export default function UserDropdown() {
           <img src="/images/user/owner.png" alt="User" />
         </span>
 
-        <span className="block mr-1 font-medium text-theme-sm">Musharof</span>
+        <span className="block mr-1 font-medium text-theme-sm">
+            {displayName}
+        </span>
         <svg
           className={`stroke-gray-500 dark:stroke-gray-400 transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
@@ -61,11 +70,18 @@ export default function UserDropdown() {
       >
         <div>
           <span className="block font-medium text-gray-700 text-theme-sm dark:text-gray-400">
-            Musharof Chowdhury
+            {displayName}
           </span>
-          <span className="mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400">
-            randomuser@pimjo.com
-          </span>
+          {displayRole ? (
+            <span className="mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400">
+              {displayRole}
+            </span>
+          ) : null}
+          {displayEmail ? (
+            <span className="mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400">
+              {displayEmail}
+            </span>
+          ) : null}
         </div>
 
         <ul className="flex flex-col gap-1 pt-4 pb-3 border-b border-gray-200 dark:border-gray-800">
