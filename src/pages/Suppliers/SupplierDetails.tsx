@@ -88,10 +88,6 @@ export default function SupplierDetails() {
             setError(null);
             setFilesError(null);
             try {
-                const supplierData = await supplierService.getSupplierById(supplierId);
-                setSupplier(supplierData);
-            } catch (err) {
-                setError("Unable to load supplier details.");
                 const [supplierResult, mediaResult] = await Promise.allSettled([
                     supplierService.getSupplierById(supplierId),
                     mediaService.getSupplierMedia(supplierId),

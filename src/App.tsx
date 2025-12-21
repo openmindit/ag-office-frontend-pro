@@ -80,6 +80,8 @@ import Integrations from "./pages/OtherPage/Integrations";
 import ApiKeys from "./pages/OtherPage/ApiKeys";
 import SuppliersList from "./pages/Suppliers/SuppliersList";
 import SupplierDetails from "./pages/Suppliers/SupplierDetails";
+import UsersList from "./pages/Users/UsersList";
+import RolesList from "./pages/Roles/RolesList";
 
 export default function App() {
     return (
@@ -98,6 +100,8 @@ export default function App() {
                         <Route element={<AppLayout/>}>
                             <Route path="/suppliers" element={<SuppliersList/>}/>
                             <Route path="/suppliers/:supplierId" element={<SupplierDetails/>}/>
+                            <Route path="/users" element={<UsersList/>}/>
+                            <Route path="/roles" element={<RolesList/>}/>
 
                             <Route index path="/" element={<Ecommerce/>}/>
                             <Route path="/analytics" element={<Analytics/>}/>

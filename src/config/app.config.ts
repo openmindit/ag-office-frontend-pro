@@ -24,7 +24,13 @@ export const APP_CONFIG = {
             bySupplier: (supplierId: string) => `/products/by-supplier/${supplierId}`,
         },
         media: {
-        bySupplier: (supplierId: string) => `/media/supplier/${supplierId}`,
+            bySupplier: (supplierId: string) => `/media/supplier/${supplierId}`,
+        },
+        users: {
+            list: '/users',
+        },
+        roles: {
+            list: '/roles',
         },
     },
     // Pagination defaults
