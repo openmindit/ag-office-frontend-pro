@@ -176,13 +176,22 @@ export interface Media {
   id: string;
   entity_type: string;
   entity_id: string;
-  media_type: 'IMAGE' | 'DOCUMENT' | 'VIDEO' | 'LOGO';
-  storage_type: 'LOCAL' | 'CLOUD' | 'EXTERNAL';
+  media_type: 'IMAGE' | 'DOCUMENT' | 'VIDEO' | 'LOGO' | string;
+  storage_type: 'LOCAL' | 'CLOUD' | 'EXTERNAL' | string;
   file_name: string;
   file_url: string;
   title?: string;
+  alt_text?: string;
+  source?: string;
   mime_type?: string;
   file_size?: number;
+  width?: number;
+  height?: number;
+  file_path?: string;
+  external_url?: string;
+  meta_info?: Record<string, unknown>;
   sort_order: number;
   is_primary: boolean;
+  created_at?: string;
+  created_by?: string;
 }

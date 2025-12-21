@@ -98,6 +98,7 @@ export default function App() {
                         <Route element={<AppLayout/>}>
                             <Route path="/suppliers" element={<SuppliersList/>}/>
                             <Route path="/suppliers/:supplierId" element={<SupplierDetails/>}/>
+
                             <Route index path="/" element={<Ecommerce/>}/>
                             <Route path="/analytics" element={<Analytics/>}/>
                             <Route path="/marketing" element={<Marketing/>}/>
