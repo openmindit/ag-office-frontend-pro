@@ -32,6 +32,9 @@ export const APP_CONFIG = {
         roles: {
             list: '/roles',
         },
+        permissions: {
+            list: '/permissions',
+        },
     },
     // Pagination defaults
     pagination: {
