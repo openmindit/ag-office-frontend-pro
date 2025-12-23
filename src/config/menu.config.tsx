@@ -26,6 +26,8 @@ export type NavItem = {
     path?: string;
     permissions?: string[];
     subItems?: NavItem[];
+    pro?: boolean;
+    new?: boolean;
 };
 
 export type MenuSection = {
@@ -202,8 +204,8 @@ export const MENU_SECTIONS: MenuSection[] = [
         name: "Task",
         icon: <TaskIcon/>,
         subItems: [
-            {name: "List", path: "/task-list", pro: true},
-            {name: "Kanban", path: "/task-kanban", pro: true},
+            {key: "Kanban", name: "List", path: "/task-list", pro: true},
+            {key: "Kanban", name: "Kanban", path: "/task-kanban", pro: true},
         ],
     },
     {
@@ -211,8 +213,8 @@ export const MENU_SECTIONS: MenuSection[] = [
         name: "Forms",
         icon: <ListIcon/>,
         subItems: [
-            {name: "Form Elements", path: "/form-elements", pro: false},
-            {name: "Form Layout", path: "/form-layout", pro: true},
+            {key: "form-elements", name: "Form Elements", path: "/form-elements", pro: false},
+            {key: "form-layout", name: "Form Layout", path: "/form-layout", pro: true},
         ],
     },
     {
