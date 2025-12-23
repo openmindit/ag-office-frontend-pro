@@ -1,4 +1,7 @@
+
 import { useEffect, useState } from "react";
+import PageBreadcrumb from "../../components/common/PageBreadCrumb";
+import PageMeta from "../../components/common/PageMeta";
 import { supplierService } from "../../services/supplier.service";
 import SupplierDataTable from "../../components/suppliers/SupplierDataTable";
 import type { Supplier } from "../../types/api.types";
@@ -41,16 +44,23 @@ export default function SuppliersList() {
   };
 
   return (
-    <SupplierDataTable
-      suppliers={suppliers}
-      loading={loading}
-      search={search}
-      onSearch={handleSearchChange}
-      page={page}
-      pageSize={pageSize}
-      onPageSizeChange={handlePageSizeChange}
-      total={total}
-      onPageChange={setPage}
-    />
+    <>
+      <PageMeta
+        title="React.js Suppliers List | TailAdmin - React.js Admin Dashboard Template"
+        description="This is React.js Suppliers List page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
+      />
+      <PageBreadcrumb pageTitle="Suppliers" />
+      <SupplierDataTable
+        suppliers={suppliers}
+        loading={loading}
+        search={search}
+        onSearch={handleSearchChange}
+        page={page}
+        pageSize={pageSize}
+        onPageSizeChange={handlePageSizeChange}
+        total={total}
+        onPageChange={setPage}
+      />
+    </>
   );
 }

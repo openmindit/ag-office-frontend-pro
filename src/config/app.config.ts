@@ -18,6 +18,7 @@ export const APP_CONFIG = {
             countries: '/suppliers/countries',
             byId: (id: string) => `/suppliers/${id}`,
             byCode: (code: string) => `/suppliers/code/${code}`,
+            contractsBySupplier: (id: string) => `/suppliers/${id}/contracts`,
         },
         products: {
             list: '/products',

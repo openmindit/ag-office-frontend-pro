@@ -158,6 +158,36 @@ export interface SupplierProductWithRelations extends SupplierProduct {
   supplier?: Supplier;
 }
 
+export interface Contract {
+  id: string;
+  code: string;
+  name: string;
+  supplier_name?: string;
+  start_date: string;
+  end_date?: string;
+  is_active: boolean;
+}
+
+export interface SupplierContract {
+  supplier_id: string;
+  code: string;
+  name: string;
+  contract_type: string;
+  status: string;
+  priority: number;
+  version: number;
+  signature_date?: string | null;
+  valid_from?: string | null;
+  valid_to?: string | null;
+  terminated_at?: string | null;
+  auto_renew: boolean;
+  is_cumulative: boolean;
+  notes?: string | null;
+  id: string;
+  created_at: string;
+  updated_at: string;
+}
+
 // Types pour les réponses API avec pagination
 export interface PaginatedResponse<T> {
   items: T[];
@@ -194,4 +224,10 @@ export interface Media {
   is_primary: boolean;
   created_at?: string;
   created_by?: string;
+}
+
+export interface ProductWithRelations extends SupplierProduct {
+  product_type?: ProductType;
+  destination?: Destination;
+  supplier?: Supplier;
 }

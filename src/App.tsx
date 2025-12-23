@@ -83,6 +83,8 @@ import SupplierDetails from "./pages/Suppliers/SupplierDetails";
 import UsersList from "./pages/Users/UsersList";
 import RolesList from "./pages/Roles/RolesList";
 import PermissionsList from "./pages/Permissions/PermissionsList";
+import ContractsList from "./pages/Contracts/ContractsList";
+import ProductsList from "./pages/Products/ProductsList";
 
 export default function App() {
     return (
@@ -104,6 +106,10 @@ export default function App() {
                             <Route path="/users" element={<UsersList/>}/>
                             <Route path="/roles" element={<RolesList/>}/>
                             <Route path="/permissions" element={<PermissionsList/>}/>
+                            <Route path="/contracts" element={<ContractsList/>}/>
+                            <Route path="/products" element={<ProductsList/>}/>
+
+                            {/* ================= EXEMPLES ================= */}
                             <Route index path="/" element={<Ecommerce/>}/>
                             <Route path="/analytics" element={<Analytics/>}/>
                             <Route path="/marketing" element={<Marketing/>}/>
@@ -111,7 +117,6 @@ export default function App() {
                             <Route path="/stocks" element={<Stocks/>}/>
                             <Route path="/saas" element={<Saas/>}/>
                             <Route path="/logistics" element={<Logistics/>}/>
-
                             <Route path="/calendar" element={<Calendar/>}/>
                             <Route path="/invoice" element={<Invoices/>}/>
                             <Route path="/invoices" element={<Invoices/>}/>

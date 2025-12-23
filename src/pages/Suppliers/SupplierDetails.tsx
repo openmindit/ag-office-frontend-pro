@@ -19,10 +19,11 @@ import type {
     SupplierProductWithRelations,
     SupplierWithContacts,
     Media,
+    SupplierContract,
 } from "../../types/api.types";
 
 interface TabItem {
-    id: "info" | "contacts" | "products" | "files";
+    id: "info" | "contacts" | "products" | "contracts" | "files";
     label: string;
     count?: number;
 }
@@ -55,22 +56,27 @@ export default function SupplierDetails() {
     const [supplier, setSupplier] = useState<SupplierWithContacts | null>(null);
     const [mediaFiles, setMediaFiles] = useState<Media[]>([]);
     const [products, setProducts] = useState<SupplierProductWithRelations[]>([]);
+    const [contracts, setContracts] = useState<SupplierContract[]>([]);
     const [loading, setLoading] = useState(true);
     const [filesLoading, setFilesLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [productsLoading, setProductsLoading] = useState(false);
     const [productsError, setProductsError] = useState<string | null>(null);
+    const [contractsLoading, setContractsLoading] = useState(false);
+    const [contractsError, setContractsError] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<TabItem["id"]>("info");
     const [filesError, setFilesError] = useState<string | null>(null);
 
     const contactsCount = supplier?.contacts?.length ?? 0;
     const productsCount = products.length;
     const filesCount = mediaFiles.length;
+    const contractsCount = contracts.length;
 
     const tabs: TabItem[] = [
         {id: "info", label: "Info"},
         {id: "contacts", label: "Contacts list", count: contactsCount},
         {id: "products", label: "Products list", count: productsCount},
+        {id: "contracts", label: "Contracts list", count: contractsCount},
         {id: "files", label: "Files list", count: filesCount},
     ];
     useEffect(() => {
@@ -112,7 +118,45 @@ export default function SupplierDetails() {
 
         fetchSupplier();
     }, [supplierId]);
+    useEffect(() => {
+        const fetchContracts = async () => {
+            if (!supplierId) {
+                setContractsError("Supplier ID is missing.");
+                setContracts([]);
+                return;
+            }
 
+            setContractsLoading(true);
+            setContractsError(null);
+            try {
+                const contractsData = await supplierService.getSupplierContracts(
+                    supplierId
+                );
+                setContracts(contractsData);
+            } catch (err) {
+                setContractsError("Unable to load supplier contracts.");
+                setContracts([]);
+            } finally {
+                setContractsLoading(false);
+            }
+        };
+
+        fetchContracts();
+    }, [supplierId]);
+
+    const formatDateValue = (value?: string | null) =>
+        value ? new Date(value).toLocaleDateString() : "-";
+
+    const getContractStatusColor = (status: string) => {
+        const normalized = status.toLowerCase();
+        if (normalized === "active") {
+            return "success";
+        }
+        if (normalized === "terminated" || normalized === "inactive") {
+            return "error";
+        }
+        return "warning";
+    };
     useEffect(() => {
         const fetchProducts = async () => {
             if (!supplierId) {
@@ -260,6 +304,171 @@ export default function SupplierDetails() {
                                 </TableRow>
                             );
                         })}
+                    </TableBody>
+                </Table>
+            </div>
+        );
+    };
+
+        const renderContractsTable = () => {
+        if (contractsLoading) {
+            return (
+                <div className="py-8 text-sm text-gray-500 dark:text-gray-400">
+                    Loading contracts...
+                </div>
+            );
+        }
+
+        if (contractsError) {
+            return (
+                <div className="py-8 text-sm text-error-500">
+                    {contractsError}
+                </div>
+            );
+        }
+
+        if (!contracts.length) {
+            return (
+                <div className="py-8 text-sm text-gray-500 dark:text-gray-400">
+                    No contracts found for this supplier.
+                </div>
+            );
+        }
+
+        return (
+            <div className="max-w-full overflow-x-auto custom-scrollbar">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableCell
+                                isHeader
+                                className="px-4 py-3 border border-gray-100 text-left text-theme-xs font-medium text-gray-700 dark:border-white/[0.05] dark:text-gray-400"
+                            >
+                                Code
+                            </TableCell>
+                            <TableCell
+                                isHeader
+                                className="px-4 py-3 border border-gray-100 text-left text-theme-xs font-medium text-gray-700 dark:border-white/[0.05] dark:text-gray-400"
+                            >
+                                Name
+                            </TableCell>
+                            <TableCell
+                                isHeader
+                                className="px-4 py-3 border border-gray-100 text-left text-theme-xs font-medium text-gray-700 dark:border-white/[0.05] dark:text-gray-400"
+                            >
+                                Type
+                            </TableCell>
+                            <TableCell
+                                isHeader
+                                className="px-4 py-3 border border-gray-100 text-left text-theme-xs font-medium text-gray-700 dark:border-white/[0.05] dark:text-gray-400"
+                            >
+                                Status
+                            </TableCell>
+                            <TableCell
+                                isHeader
+                                className="px-4 py-3 border border-gray-100 text-left text-theme-xs font-medium text-gray-700 dark:border-white/[0.05] dark:text-gray-400"
+                            >
+                                Priority
+                            </TableCell>
+                            <TableCell
+                                isHeader
+                                className="px-4 py-3 border border-gray-100 text-left text-theme-xs font-medium text-gray-700 dark:border-white/[0.05] dark:text-gray-400"
+                            >
+                                Version
+                            </TableCell>
+                            <TableCell
+                                isHeader
+                                className="px-4 py-3 border border-gray-100 text-left text-theme-xs font-medium text-gray-700 dark:border-white/[0.05] dark:text-gray-400"
+                            >
+                                Signature date
+                            </TableCell>
+                            <TableCell
+                                isHeader
+                                className="px-4 py-3 border border-gray-100 text-left text-theme-xs font-medium text-gray-700 dark:border-white/[0.05] dark:text-gray-400"
+                            >
+                                Valid from
+                            </TableCell>
+                            <TableCell
+                                isHeader
+                                className="px-4 py-3 border border-gray-100 text-left text-theme-xs font-medium text-gray-700 dark:border-white/[0.05] dark:text-gray-400"
+                            >
+                                Valid to
+                            </TableCell>
+                            <TableCell
+                                isHeader
+                                className="px-4 py-3 border border-gray-100 text-left text-theme-xs font-medium text-gray-700 dark:border-white/[0.05] dark:text-gray-400"
+                            >
+                                Auto renew
+                            </TableCell>
+                            <TableCell
+                                isHeader
+                                className="px-4 py-3 border border-gray-100 text-left text-theme-xs font-medium text-gray-700 dark:border-white/[0.05] dark:text-gray-400"
+                            >
+                                Cumulative
+                            </TableCell>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {contracts.map((contract) => (
+                            <TableRow key={contract.id}>
+                                <TableCell
+                                    className="px-4 py-4 border border-gray-100 text-theme-sm font-medium text-gray-800 dark:border-white/[0.05] dark:text-white/90">
+                                    {contract.code}
+                                </TableCell>
+                                <TableCell
+                                    className="px-4 py-4 border border-gray-100 text-theme-sm text-gray-700 dark:border-white/[0.05] dark:text-gray-300">
+                                    <div className="flex flex-col gap-1">
+                      <span className="font-medium text-gray-800 dark:text-white/90">
+                        {contract.name}
+                      </span>
+                                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                        {contract.notes ?? "No notes"}
+                      </span>
+                                    </div>
+                                </TableCell>
+                                <TableCell
+                                    className="px-4 py-4 border border-gray-100 text-theme-sm text-gray-700 dark:border-white/[0.05] dark:text-gray-300">
+                                    {contract.contract_type}
+                                </TableCell>
+                                <TableCell
+                                    className="px-4 py-4 border border-gray-100 text-theme-sm dark:border-white/[0.05]">
+                                    <Badge
+                                        size="sm"
+                                        color={getContractStatusColor(contract.status)}
+                                    >
+                                        {contract.status}
+                                    </Badge>
+                                </TableCell>
+                                <TableCell
+                                    className="px-4 py-4 border border-gray-100 text-theme-sm text-gray-700 dark:border-white/[0.05] dark:text-gray-300">
+                                    {contract.priority}
+                                </TableCell>
+                                <TableCell
+                                    className="px-4 py-4 border border-gray-100 text-theme-sm text-gray-700 dark:border-white/[0.05] dark:text-gray-300">
+                                    {contract.version}
+                                </TableCell>
+                                <TableCell
+                                    className="px-4 py-4 border border-gray-100 text-theme-sm text-gray-700 dark:border-white/[0.05] dark:text-gray-300">
+                                    {formatDateValue(contract.signature_date)}
+                                </TableCell>
+                                <TableCell
+                                    className="px-4 py-4 border border-gray-100 text-theme-sm text-gray-700 dark:border-white/[0.05] dark:text-gray-300">
+                                    {formatDateValue(contract.valid_from)}
+                                </TableCell>
+                                <TableCell
+                                    className="px-4 py-4 border border-gray-100 text-theme-sm text-gray-700 dark:border-white/[0.05] dark:text-gray-300">
+                                    {formatDateValue(contract.valid_to)}
+                                </TableCell>
+                                <TableCell
+                                    className="px-4 py-4 border border-gray-100 text-theme-sm text-gray-700 dark:border-white/[0.05] dark:text-gray-300">
+                                    {contract.auto_renew ? "Yes" : "No"}
+                                </TableCell>
+                                <TableCell
+                                    className="px-4 py-4 border border-gray-100 text-theme-sm text-gray-700 dark:border-white/[0.05] dark:text-gray-300">
+                                    {contract.is_cumulative ? "Yes" : "No"}
+                                </TableCell>
+                            </TableRow>
+                        ))}
                     </TableBody>
                 </Table>
             </div>
@@ -439,6 +648,11 @@ export default function SupplierDetails() {
         products: (
             <div className="rounded-xl border border-gray-200 dark:border-gray-800">
                 {renderProductsTable()}
+            </div>
+        ),
+        contracts: (
+            <div className="rounded-xl border border-gray-200 dark:border-gray-800">
+                {renderContractsTable()}
             </div>
         ),
         files: (
