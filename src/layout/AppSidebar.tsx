@@ -4,6 +4,7 @@ import { ChevronDownIcon, HorizontaLDots } from "../icons";
 import { MENU_SECTIONS, type NavItem } from "../config/menu.config";
 import { useSidebar } from "../context/SidebarContext";
 import { usePermissions } from "../hooks/usePermissions";
+import { useTranslation } from 'react-i18next';
 
 
 const AppSidebar: React.FC = () => {
@@ -11,7 +12,7 @@ const AppSidebar: React.FC = () => {
     useSidebar();
   const location = useLocation();
   const { canAccessMenu } = usePermissions();
-
+  const { t } = useTranslation();
   // Auto-close sidebar on mobile after route change
   useEffect(() => {
     if (isMobileOpen) {
@@ -122,7 +123,7 @@ const AppSidebar: React.FC = () => {
   ) => (
     <ul className="flex flex-col gap-1">
       {items.map((nav, index) => (
-        <li key={nav.name}>
+        <li key={nav.key}>
           {nav.subItems ? (
             <button
               onClick={() => handleSubmenuToggle(index, sectionKey)}
@@ -147,7 +148,7 @@ const AppSidebar: React.FC = () => {
               </span>
 
               {(isExpanded || isHovered || isMobileOpen) && (
-                <span className="menu-item-text">{nav.name}</span>
+                <span className="menu-item-text first-letter-uppercase">{t(nav.name)}</span>
               )}
 
               {(isExpanded || isHovered || isMobileOpen) && (
@@ -179,7 +180,7 @@ const AppSidebar: React.FC = () => {
                   {nav.icon}
                 </span>
                 {(isExpanded || isHovered || isMobileOpen) && (
-                  <span className="menu-item-text">{nav.name}</span>
+                  <span className="menu-item-text first-letter-uppercase">{t(nav.name)}</span>
                 )}
               </Link>
             )
