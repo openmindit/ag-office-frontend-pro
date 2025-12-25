@@ -12,6 +12,11 @@ export interface User {
   updated_at: string;
 }
 
+export interface AppConfiguration {
+  language?: string;
+  [key: string]: unknown;
+}
+
 export interface LoginRequest {
   email: string;
   password: string;

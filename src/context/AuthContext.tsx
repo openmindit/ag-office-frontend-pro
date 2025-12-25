@@ -1,22 +1,34 @@
-import { authService } from "../services/auth.service";
-import { useAuthStore } from "../stores/auth.store";
+import {authService} from "../services/auth.service";
+import {useAuthStore} from "../stores/auth.store";
+import { configurationService } from "../services/configuration.service";
+import { useConfigurationStore } from "../stores/configuration.store";
+import i18n from "../i18n";
+
 
 export const loginAndLoadContext = async (
-  email: string,
-  password: string
+    email: string,
+    password: string
 ) => {
-  const { access_token } = await authService.login(email, password);
+    const {access_token} = await authService.login(email, password);
 
-  // 🔐 stocker le token
-  localStorage.setItem("access_token", access_token);
+    // 🔐 stocker le token
+    localStorage.setItem("access_token", access_token);
 
-  // 👤 récupérer l'utilisateur
-  const user = await authService.me();
+    // 👤 récupérer l'utilisateur
+    const user = await authService.me();
 
-  // 🔑 récupérer les permissions
-  const permissions = await authService.getMyPermissions();
+    // 🔑 récupérer les permissions
+    const permissions = await authService.getMyPermissions();
 
-  // 🧠 hydrater le store
-  useAuthStore.getState().login(user, access_token, permissions);
+    // ⚙️ récupérer la configuration de l'utilisateur
+    const configuration = await configurationService.getMyConfiguration();
+
+    if (configuration.language) {
+        i18n.changeLanguage(configuration.language);
+    }
+
+    // 🧠 hydrater le store
+    useAuthStore.getState().login(user, access_token, permissions);
+    useConfigurationStore.getState().setConfiguration(configuration);
 
 };

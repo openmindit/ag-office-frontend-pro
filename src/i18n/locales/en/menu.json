@@ -2,5 +2,6 @@
   "dashboard": "dashboard",
   "suppliers": "suppliers",
   "users": "users",
-  "settings": "settings"
+  "settings": "settings",
+  "#suppliers": "suppliers"
 }

@@ -5,7 +5,7 @@
   "reminders": "rappels",
   "calendar": "calendrier",
   "kanbans" : "kanbans",
-  "suppliers": "fournisseurs" ,
+  "#suppliers": "fournisseurs" ,
   "products": "produits",
   "contracts" : "contrats",
   "packages": "packages",

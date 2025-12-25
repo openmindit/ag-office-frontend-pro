@@ -60,7 +60,7 @@ export const MENU_SECTIONS: MenuSection[] = [
         items: [
             {
                 key: "suppliers",
-                name: "suppliers",
+                name: "#suppliers",
                 icon: <GridIcon/>,
                 path: "/suppliers",
                 permissions: ["suppliers:read"]
