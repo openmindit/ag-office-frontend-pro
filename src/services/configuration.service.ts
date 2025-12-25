@@ -1,9 +1,9 @@
 import { apiClient } from "./apiClient";
-import type { AppConfiguration } from "../types/api.types";
+import type { Configuration } from "../types/api.types";
 
 export const configurationService = {
-    async getMyConfiguration(): Promise<AppConfiguration> {
-        const { data } = await apiClient.get<AppConfiguration>("/configuration/me");
+    async getMyConfiguration(): Promise<Configuration> {
+        const { data } = await apiClient.get<Configuration>("/configuration/me");
         return data;
     },
 };

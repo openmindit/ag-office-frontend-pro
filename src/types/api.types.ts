@@ -12,10 +12,47 @@ export interface User {
   updated_at: string;
 }
 
-export interface AppConfiguration {
+export interface Configuration {
   language?: string;
   [key: string]: unknown;
 }
+
+export interface ApplicationConfig {
+  id?: string;
+  singleton_key?: string;
+  company_name?: string | null;
+  company_legal_name?: string | null;
+  tax_id?: string | null;
+  logo_url?: string | null;
+  favicon_url?: string | null;
+  default_language?: string | null;
+  default_currency?: string | null;
+  default_timezone?: string | null;
+  default_date_format?: string | null;
+  default_time_format?: string | null;
+  headquarters_address?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  website?: string | null;
+  vat_number?: string | null;
+  siret?: string | null;
+  license_number?: string | null;
+  primary_color?: string | null;
+  secondary_color?: string | null;
+  theme?: string | null;
+  default_vat_rate?: string | null;
+  booking_reference_prefix?: string | null;
+  invoice_number_format?: string | null;
+  contract_validity_days?: string | null;
+  data_retention_days?: string | null;
+  privacy_policy_url?: string | null;
+  terms_conditions_url?: string | null;
+  settings?: Record<string, unknown>;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export type AppConfiguration = ApplicationConfig;
 
 export interface LoginRequest {
   email: string;

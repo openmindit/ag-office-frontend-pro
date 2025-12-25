@@ -13,6 +13,9 @@ const AppSidebar: React.FC = () => {
   const location = useLocation();
   const { canAccessMenu } = usePermissions();
   const { t } = useTranslation();
+  const translateMenuText = (key: string) =>
+    t(key, { ns: "menu", defaultValue: key });
+
   // Auto-close sidebar on mobile after route change
   useEffect(() => {
     if (isMobileOpen) {
@@ -148,7 +151,7 @@ const AppSidebar: React.FC = () => {
               </span>
 
               {(isExpanded || isHovered || isMobileOpen) && (
-                <span className="menu-item-text first-letter-uppercase">{t(nav.name)}</span>
+                <span className="menu-item-text first-letter-uppercase">{translateMenuText(nav.name)}</span>
               )}
 
               {(isExpanded || isHovered || isMobileOpen) && (
@@ -180,7 +183,7 @@ const AppSidebar: React.FC = () => {
                   {nav.icon}
                 </span>
                 {(isExpanded || isHovered || isMobileOpen) && (
-                  <span className="menu-item-text first-letter-uppercase">{t(nav.name)}</span>
+                  <span className="menu-item-text first-letter-uppercase">{translateMenuText(nav.name)}</span>
                 )}
               </Link>
             )
@@ -210,7 +213,7 @@ const AppSidebar: React.FC = () => {
                             : "menu-dropdown-item-inactive"
                         }`}
                       >
-                        {subItem.name}
+                        {translateMenuText(subItem.name)}
                       </Link>
                     )}
                   </li>
@@ -284,7 +287,7 @@ const AppSidebar: React.FC = () => {
                   }`}
                 >
                   {isExpanded || isHovered || isMobileOpen ? (
-                    section.label ?? "Menu"
+                    section.label ? translateMenuText(section.label) : ""
                   ) : (
                     <HorizontaLDots className="size-6" />
                   )}

@@ -54,13 +54,14 @@ export const MENU_SECTIONS: MenuSection[] = [
             },
         ],
     },
+
     {
         key: "catalogue",
         label: "Catalogue",
         items: [
             {
                 key: "suppliers",
-                name: "#suppliers",
+                name: "suppliers",
                 icon: <GridIcon/>,
                 path: "/suppliers",
                 permissions: ["suppliers:read"]
@@ -76,6 +77,7 @@ export const MENU_SECTIONS: MenuSection[] = [
             {key: "packages", name: "packages", icon: <GridIcon/>, path: "/packages", permissions: ["packages:read"]},
         ],
     },
+
     {
         key: "sales",
         label: "Sales",
@@ -85,6 +87,25 @@ export const MENU_SECTIONS: MenuSection[] = [
             {key: "sales-quotes", name: "quotes", icon: <GridIcon/>, path: "/quotes"},
             {key: "sales-bookings", name: "bookings", icon: <GridIcon/>, path: "/bookings"},
             {key: "sales-vouchers", name: "vouchers", icon: <GridIcon/>, path: "/vouchers"},
+        ],
+    },
+
+    {
+        key: "refrence-data-section",
+        items: [
+            {
+                key: "reference-data",
+                name: "reference data",
+                icon: <GridIcon/>,
+                subItems: [
+                    {key: "reference-data-destination", name: "destination", icon: <GridIcon/>, path: "/destination",},
+                    {key: "reference-data-product-type", name: "product type", icon: <GridIcon/>, path: "/product-type",},
+                    {key: "reference-data-service-type", name: "service type", icon: <GridIcon/>, path: "/service-type"},
+                    {key: "reference-data-currency", name: "currency", icon: <GridIcon/>, path: "/currency",},
+                    {key: "reference-data-contract-status", name: "contract status", icon: <GridIcon/>, path: "/contract-status"},
+                    {key: "reference-data-locals", name: "locals", icon: <GridIcon/>, path: "/locals"},
+                ]
+            },
         ],
     },
 
@@ -102,6 +123,7 @@ export const MENU_SECTIONS: MenuSection[] = [
             },
         ],
     },
+
     {
         key: "administration-label",
         items: [
@@ -132,16 +154,17 @@ export const MENU_SECTIONS: MenuSection[] = [
                         permissions: ["permissions:read"]
                     },
                     {
-                        key: "administration-ressources",
-                        name: "ressources",
+                        key: "administration-app-config",
+                        name: "app config",
                         icon: <GridIcon/>,
-                        path: "/ressources",
-                        permissions: ["ressources:read"]
+                        path: "/app-config",
+                        permissions: ["system_config:read"]
                     },
                 ]
             },
         ],
     },
+
     {
         key: "--",
         items: [

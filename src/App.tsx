@@ -85,6 +85,7 @@ import RolesList from "./pages/Roles/RolesList";
 import PermissionsList from "./pages/Permissions/PermissionsList";
 import ContractsList from "./pages/Contracts/ContractsList";
 import ProductsList from "./pages/Products/ProductsList";
+import ApplicationConfigPage from "./pages/ApplicationConfig/ApplicationConfigPage";
 
 export default function App() {
     return (
@@ -108,6 +109,7 @@ export default function App() {
                             <Route path="/permissions" element={<PermissionsList/>}/>
                             <Route path="/contracts" element={<ContractsList/>}/>
                             <Route path="/products" element={<ProductsList/>}/>
+                            <Route path="/app-config" element={<ApplicationConfigPage/>}/>
 
                             {/* ================= EXEMPLES ================= */}
                             <Route index path="/" element={<Ecommerce/>}/>
