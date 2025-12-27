@@ -110,21 +110,6 @@ export const MENU_SECTIONS: MenuSection[] = [
     },
 
     {
-        key: "settings-label",
-        items: [
-            {
-                key: "settings",
-                name: "settings",
-                icon: <GridIcon/>,
-                subItems: [
-                    {key: "settings-profile", name: "profile", icon: <GridIcon/>, path: "/profile",},
-                    {key: "settings-configuration", name: "configuration", icon: <GridIcon/>, path: "/config",},
-                ]
-            },
-        ],
-    },
-
-    {
         key: "administration-label",
         items: [
             {

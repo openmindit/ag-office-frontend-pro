@@ -12,6 +12,49 @@ export interface User {
   updated_at: string;
 }
 
+export interface UserProfile {
+  department_id?: string | null;
+  first_name?: string | null;
+  last_name?: string | null;
+  display_name?: string | null;
+  phone?: string | null;
+  mobile?: string | null;
+  preferred_language?: string | null;
+  timezone?: string | null;
+  date_format?: string | null;
+  time_format?: string | null;
+  currency?: string | null;
+  job_title?: string | null;
+  employee_id?: string | null;
+  office_location?: string | null;
+  signature?: string | null;
+  avatar_url?: string | null;
+  bio?: string | null;
+  settings?: Record<string, unknown> | null;
+  id?: string;
+  user_id?: string;
+  created_at?: string;
+  updated_at?: string;
+  username?: string | null;
+  user_email?: string | null;
+  department_name?: string | null;
+}
+
+export type UserProfileUpdatePayload = Partial<
+  Omit<
+    UserProfile,
+    | "id"
+    | "user_id"
+    | "created_at"
+    | "updated_at"
+    | "department_name"
+    | "user_email"
+    | "username"
+  >
+> & {
+  settings?: Record<string, unknown>;
+};
+
 export interface Configuration {
   language?: string;
   [key: string]: unknown;

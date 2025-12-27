@@ -36,6 +36,9 @@ export const APP_CONFIG = {
         permissions: {
             list: '/permissions',
         },
+        userProfiles: {
+            me: '/user-profiles/me',
+        },
     },
     // Pagination defaults
     pagination: {

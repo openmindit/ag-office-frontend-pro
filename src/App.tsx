@@ -86,6 +86,7 @@ import PermissionsList from "./pages/Permissions/PermissionsList";
 import ContractsList from "./pages/Contracts/ContractsList";
 import ProductsList from "./pages/Products/ProductsList";
 import ApplicationConfigPage from "./pages/ApplicationConfig/ApplicationConfigPage";
+import UserProfile from "./pages/Users/UserProfile.tsx";
 
 export default function App() {
     return (
@@ -110,6 +111,7 @@ export default function App() {
                             <Route path="/contracts" element={<ContractsList/>}/>
                             <Route path="/products" element={<ProductsList/>}/>
                             <Route path="/app-config" element={<ApplicationConfigPage/>}/>
+                            <Route path="/user-profile" element={<UserProfile/>}/>
 
                             {/* ================= EXEMPLES ================= */}
                             <Route index path="/" element={<Ecommerce/>}/>
