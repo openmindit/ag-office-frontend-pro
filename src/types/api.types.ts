@@ -316,3 +316,77 @@ export interface ProductWithRelations extends SupplierProduct {
   destination?: Destination;
   supplier?: Supplier;
 }
+
+export interface PaginatedPackageResponse {
+  items: Package[];
+  total: number;
+  page: number;
+  page_size: number;
+  total_pages: number;
+}
+
+export interface PackageComponent {
+  package_id: string;
+  product_category_id: string;
+  inclusion_mode: string;
+  option_group?: string | null;
+  is_mandatory: boolean;
+  is_default_selected: boolean;
+  quantity: number;
+  min_quantity: number;
+  max_quantity: number;
+  price_handling: string;
+  price_supplement?: string | null;
+  unit_cost?: string | null;
+  total_cost?: string | null;
+  unit_sell_price?: string | null;
+  total_sell_price?: string | null;
+  sort_order?: number;
+  display_name?: string;
+  highlight?: string | boolean | null;
+  notes?: string | null;
+  id: string;
+  created_at: string;
+  updated_at: string;
+  product_category_name?: string;
+  product_category_code?: string;
+}
+
+export interface PackagePricingPolicy {
+  package_id: string;
+  pricing_mode: string;
+  fixed_price?: string | null;
+  base_margin_pct?: string | null;
+  base_margin_amount?: string | null;
+  is_from_price: boolean;
+  notes?: string | null;
+  id: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Package {
+  code: string;
+  name: string;
+  description?: string;
+  status: string;
+  min_pax?: number;
+  max_pax?: number;
+  valid_from?: string;
+  valid_to?: string;
+  featured_image_url?: string;
+  brochure_page?: number;
+  highlight?: boolean;
+  tags?: string[];
+  meta_info?: Record<string, unknown>;
+  id: string;
+  created_at: string;
+  updated_at: string;
+  created_by?: string;
+  updated_by?: string;
+  published_at?: string;
+  published_by?: string;
+  components?: PackageComponent[];
+  pricing_policy?: PackagePricingPolicy;
+  destinations?: Destination[];
+}

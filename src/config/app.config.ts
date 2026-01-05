@@ -39,6 +39,10 @@ export const APP_CONFIG = {
         userProfiles: {
             me: '/user-profiles/me',
         },
+        packages: {
+            list: '/packages',
+            byId: (id: string) => `/packages/${id}`,
+        },
     },
     // Pagination defaults
     pagination: {

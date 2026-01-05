@@ -87,6 +87,8 @@ import ContractsList from "./pages/Contracts/ContractsList";
 import ProductsList from "./pages/Products/ProductsList";
 import ApplicationConfigPage from "./pages/ApplicationConfig/ApplicationConfigPage";
 import UserProfile from "./pages/Users/UserProfile.tsx";
+import PackageList from "./pages/Packages/PackageList";
+import PackageDetails from "./pages/Packages/PackageDetails";
 
 export default function App() {
     return (
@@ -112,7 +114,8 @@ export default function App() {
                             <Route path="/products" element={<ProductsList/>}/>
                             <Route path="/app-config" element={<ApplicationConfigPage/>}/>
                             <Route path="/user-profile" element={<UserProfile/>}/>
-
+                            <Route path="/packages" element={<PackageList/>}/>
+                            <Route path="/packages/:packageId" element={<PackageDetails/>}/>
                             {/* ================= EXEMPLES ================= */}
                             <Route index path="/" element={<Ecommerce/>}/>
                             <Route path="/analytics" element={<Analytics/>}/>
