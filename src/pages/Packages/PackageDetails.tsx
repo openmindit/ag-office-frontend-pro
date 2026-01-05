@@ -18,7 +18,7 @@ export default function PackageList() {
             try {
                 const data = await packageService.getPackages();
                 if (isMounted) {
-                    setPackages(data);
+                    setPackages(Array.isArray(data.items) ? data.items : []);
                 }
             } catch {
                 if (isMounted) {
