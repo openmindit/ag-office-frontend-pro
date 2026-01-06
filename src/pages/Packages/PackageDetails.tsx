@@ -106,12 +106,35 @@ export default function PackageDetails() {
                   <Badge size="sm" color={statusColor}>
                     {pkg.status}
                   </Badge>
+                   {pkg.highlight ? (
+                    <Badge size="sm" color="info">
+                      Highlighted
+                    </Badge>
+                  ) : null}
                 </div>
 
                 <p className="text-gray-600 dark:text-gray-300">
                   {pkg.description || "No description available."}
                 </p>
+                {pkg.featured_image_url ? (
+                  <div className="overflow-hidden rounded-xl border border-gray-100 shadow-sm dark:border-gray-800">
+                    <img
+                      src={pkg.featured_image_url}
+                      alt={pkg.name}
+                      className="h-48 w-full object-cover"
+                    />
+                  </div>
+                ) : null}
 
+                {pkg.tags && pkg.tags.length > 0 ? (
+                  <div className="flex flex-wrap gap-2">
+                    {pkg.tags.map((tag) => (
+                      <Badge key={tag} size="sm" color="gray">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                ) : null}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <div className="rounded-xl bg-gray-50 p-4 dark:bg-gray-800/50">
                     <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
@@ -148,6 +171,98 @@ export default function PackageDetails() {
                       {formatDate(pkg.published_at)}
                     </p>
                   </div>
+                </div>
+
+                <div className="rounded-2xl border border-gray-100 p-4 dark:border-gray-800">
+                  <h4 className="mb-3 text-sm font-semibold text-gray-800 dark:text-white/90">
+                    Components
+                  </h4>
+                  {pkg.components && pkg.components.length > 0 ? (
+                    <div className="space-y-3">
+                      {pkg.components.map((component) => (
+                        <div
+                          key={component.id}
+                          className="rounded-xl bg-gray-50 p-4 dark:bg-gray-800/50"
+                        >
+                          <div className="flex flex-wrap items-center justify-between gap-2">
+                            <div className="flex items-center gap-2">
+                              <p className="text-sm font-semibold text-gray-800 dark:text-white/90">
+                                {component.display_name ?? "Component"}
+                              </p>
+                              <Badge size="xs" color="gray">
+                                {component.inclusion_mode}
+                              </Badge>
+                              {component.option_group ? (
+                                <Badge size="xs" color="info">
+                                  {component.option_group}
+                                </Badge>
+                              ) : null}
+                            </div>
+                            {component.highlight ? (
+                              <Badge size="xs" color="warning">
+                                Highlight
+                              </Badge>
+                            ) : null}
+                          </div>
+                          <div className="mt-2 grid grid-cols-1 gap-2 text-xs text-gray-600 dark:text-gray-300 md:grid-cols-2">
+                            <p>
+                              Quantity: {component.quantity} (min {component.min_quantity}
+                              {component.max_quantity ? ` / max ${component.max_quantity}` : ""})
+                            </p>
+                            <p>
+                              Mandatory: {component.is_mandatory ? "Yes" : "No"} · Default:
+                              {" "}
+                              {component.is_default_selected ? "Selected" : "Not selected"}
+                            </p>
+                            <p>Price handling: {component.price_handling}</p>
+                            <p>Sort order: {component.sort_order ?? "-"}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      No components configured.
+                    </p>
+                  )}
+                </div>
+
+                <div className="rounded-2xl border border-gray-100 p-4 dark:border-gray-800">
+                  <h4 className="mb-3 text-sm font-semibold text-gray-800 dark:text-white/90">
+                    Pricing policy
+                  </h4>
+                  {pkg.pricing_policy ? (
+                    <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                      <div className="rounded-xl bg-gray-50 p-3 text-sm dark:bg-gray-800/50">
+                        <p className="text-gray-500 dark:text-gray-400">Mode</p>
+                        <p className="font-medium text-gray-800 dark:text-white/90">
+                          {pkg.pricing_policy.pricing_mode}
+                        </p>
+                      </div>
+                      <div className="rounded-xl bg-gray-50 p-3 text-sm dark:bg-gray-800/50">
+                        <p className="text-gray-500 dark:text-gray-400">Fixed price</p>
+                        <p className="font-medium text-gray-800 dark:text-white/90">
+                          {pkg.pricing_policy.fixed_price ?? "-"}
+                        </p>
+                      </div>
+                      <div className="rounded-xl bg-gray-50 p-3 text-sm dark:bg-gray-800/50">
+                        <p className="text-gray-500 dark:text-gray-400">From price</p>
+                        <p className="font-medium text-gray-800 dark:text-white/90">
+                          {pkg.pricing_policy.is_from_price ? "Yes" : "No"}
+                        </p>
+                      </div>
+                      <div className="rounded-xl bg-gray-50 p-3 text-sm dark:bg-gray-800/50">
+                        <p className="text-gray-500 dark:text-gray-400">Notes</p>
+                        <p className="font-medium text-gray-800 dark:text-white/90">
+                          {pkg.pricing_policy.notes ?? "-"}
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      No pricing policy available.
+                    </p>
+                  )}
                 </div>
               </div>
             ) : null}
@@ -190,6 +305,50 @@ export default function PackageDetails() {
                   <dd className="font-medium text-gray-800 dark:text-white/90">
                     {formatDate(pkg.updated_at)}
                   </dd>
+                </div>
+
+                <div className="flex items-start justify-between gap-4">
+                  <dt className="text-gray-500 dark:text-gray-400">Meta info</dt>
+                  <dd className="text-right font-medium text-gray-800 dark:text-white/90">
+                    {pkg.meta_info ? (
+                      <div className="space-y-1 text-left">
+                        {Object.entries(pkg.meta_info).map(([key, value]) => (
+                          <div key={key} className="flex items-center justify-between gap-3">
+                            <span className="text-gray-500 dark:text-gray-400">{key}</span>
+                            <span>{String(value)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      "-"
+                    )}
+                  </dd>
+                </div>
+
+                <div>
+                  <dt className="text-gray-500 dark:text-gray-400">Destinations</dt>
+                  {pkg.destinations && pkg.destinations.length > 0 ? (
+                    <ul className="mt-2 space-y-2 text-left">
+                      {pkg.destinations.map((destination) => (
+                        <li
+                          key={destination.id}
+                          className="rounded-lg bg-gray-50 p-3 text-xs dark:bg-gray-800/50"
+                        >
+                          <p className="font-semibold text-gray-800 dark:text-white/90">
+                            {destination.destination_name ?? destination.destination_id}
+                          </p>
+                          <p className="text-gray-500 dark:text-gray-400">
+                            {destination.destination_country ?? "Unknown country"}
+                            {destination.destination_region
+                              ? ` · ${destination.destination_region}`
+                              : ""}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-xs text-gray-500 dark:text-gray-400">No destinations.</p>
+                  )}
                 </div>
               </dl>
             ) : (

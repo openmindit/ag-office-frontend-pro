@@ -334,7 +334,7 @@ export interface PackageComponent {
   is_default_selected: boolean;
   quantity: number;
   min_quantity: number;
-  max_quantity: number;
+  max_quantity?: number | null;
   price_handling: string;
   price_supplement?: string | null;
   unit_cost?: string | null;
@@ -343,13 +343,25 @@ export interface PackageComponent {
   total_sell_price?: string | null;
   sort_order?: number;
   display_name?: string;
-  highlight?: string | boolean | null;
+  highlight?: boolean | string | null;
   notes?: string | null;
   id: string;
   created_at: string;
   updated_at: string;
   product_category_name?: string;
   product_category_code?: string;
+}
+
+export interface PackageDestination {
+  destination_id: string;
+  id: string;
+  package_id: string;
+  created_at: string;
+  updated_at: string;
+  destination_code?: string | null;
+  destination_name?: string | null;
+  destination_country?: string | null;
+  destination_region?: string | null;
 }
 
 export interface PackagePricingPolicy {
