@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router";
 import {
   Table,
   TableBody,
@@ -376,9 +377,12 @@ export default function PackageDataTable({
                           />
                         </div>
                         <div>
-                          <p className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                          <Link
+                            to={`/packages/${pkg.id}`}
+                            className="block font-medium text-gray-800 transition-colors text-theme-sm hover:text-brand-500 dark:text-white/90 dark:hover:text-brand-300"
+                          >
                             {pkg.name}
-                          </p>
+                          </Link>
                           <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
                             {pkg.code}
                           </span>
