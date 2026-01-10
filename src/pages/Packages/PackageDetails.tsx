@@ -1,7 +1,7 @@
 import {useEffect, useMemo, useState} from "react";
 import {Link, useParams} from "react-router";
 import PageMeta from "../../components/common/PageMeta";
-import PageBreadcrumb from "../../components/common/breadcrumb";
+import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import Badge from "../../components/ui/badge/Badge";
 import {
     Table,
@@ -13,6 +13,8 @@ import {
 import {packageService} from "../../services/package.service";
 import type {
     PackageComponentEnhanced,
+    PackageDestination,
+    PackageDestinationEnhanced,
     PackageEnhanced,
     PackageUserSummary,
 } from "../../types/api.types";
@@ -38,10 +40,9 @@ const TabButton: React.FC<{
     >
         {tab.label}
         {tab.count !== undefined ? (
-            <span
-                className="inline-block items-center justify-center rounded-full bg-brand-50 px-2 py-0.5 text-center text-xs font-medium text-brand-500 dark:bg-brand-500/15 dark:text-brand-400">
-        {tab.count}
-      </span>
+            <span className="inline-block items-center justify-center rounded-full bg-brand-50 px-2 py-0.5 text-center text-xs font-medium text-brand-500 dark:bg-brand-500/15 dark:text-brand-400">
+                {tab.count}
+            </span>
         ) : null}
     </button>
 );
@@ -54,18 +55,17 @@ const formatUserLabel = (
     fallback?: string | null
 ) => {
   if (user) {
-    const name = `${user.first_name ?? ""} ${user.last_name ?? ""}`.trim();
-    return name || user.email || user.id;
-  }
-  return fallback ?? "-";
-}
+        const name = `${user.first_name ?? ""} ${user.last_name ?? ""}`.trim();
+        return name || user.email || user.id;
+    }
+    return fallback ?? "-";
+};
+
 
 const renderPricingValue = (value?: string | null) => value ?? "-";
 
 export default function PackageDetails() {
-
-
- const {packageId} = useParams();
+    const {packageId} = useParams();
     const [pkg, setPkg] = useState<PackageEnhanced | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -85,11 +85,9 @@ export default function PackageDetails() {
             setError(null);
 
             try {
-                const result = await packageService.getPackageEnhancedById(packageId);
-                if (isMounted) {
-                    setPkg(result);
-                }
-            } catch {
+                const result = await packageService.getPackageEnhancedById(
+                    packageId
+                );
                 if (isMounted) {
                     setError("Unable to load package details.");
                 }
@@ -100,7 +98,7 @@ export default function PackageDetails() {
             }
         };
 
-        fetchPackage();
+        void fetchPackage();
 
         return () => {
             isMounted = false;
@@ -114,7 +112,10 @@ export default function PackageDetails() {
     }, [pkg?.status]);
 
     const componentsCount = pkg?.components?.length ?? 0;
-    const destinationsCount = pkg?.destinations?.length ?? 0;
+    const destinationsCount =
+        pkg?.destinationsEnhanced?.length ??
+        pkg?.destinations?.length ??
+        0;
 
     const tabs: TabItem[] = [
         {id: "info", label: "Info"},
@@ -125,14 +126,6 @@ export default function PackageDetails() {
     ];
 
     const renderComponentsTable = () => {
-
-        if (!pkg?.components?.length) {
-            return (
-                <div className="py-8 text-sm text-gray-500 dark:text-gray-400">
-                    No components configured.
-                </div>
-            );
-        }
         if (error) {
             return <div className="py-8 text-sm text-error-500">{error}</div>;
         }
@@ -142,9 +135,8 @@ export default function PackageDetails() {
                     No components configured.
                 </div>
             );
-      }
-    };
-    return (
+        }
+        return (
             <div className="max-w-full overflow-x-auto custom-scrollbar">
                 <Table>
                     <TableHeader>
@@ -188,82 +180,90 @@ export default function PackageDetails() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {pkg.components.map((component: PackageComponentEnhanced) => (
-                            <TableRow key={component.id}>
-                                <TableCell
-                                    className="px-4 py-4 border border-gray-100 text-theme-sm font-medium text-gray-800 dark:border-white/[0.05] dark:text-white/90">
-                                    <div className="flex flex-col gap-1">
-                                        <span>{component.display_name ?? "Component"}</span>
-                                        <span className="text-xs text-gray-500 dark:text-gray-400">
-                                            Qty {component.quantity} · Sort {component.sort_order ?? "-"}
-                                        </span>
-                                    </div>
-                                </TableCell>
-                                <TableCell
-                                    className="px-4 py-4 border border-gray-100 text-theme-sm dark:border-white/[0.05]">
-                                    <div className="flex flex-wrap items-center gap-2">
-                                        <Badge size="sm" color="gray">
-                                            {component.inclusion_mode}
-                                        </Badge>
-                                        {component.option_group ? (
-                                            <Badge size="sm" color="info">
-                                                {component.option_group}
+                        {pkg.components.map(
+                            (component: PackageComponentEnhanced) => (
+                                <TableRow key={component.id}>
+                                    <TableCell className="px-4 py-4 border border-gray-100 text-theme-sm font-medium text-gray-800 dark:border-white/[0.05] dark:text-white/90">
+                                        <div className="flex flex-col gap-1">
+                                            <span>
+                                                {component.display_name ?? "Component"}
+                                            </span>
+                                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                                                Qty {component.quantity} · Sort{" "}
+                                                {component.sort_order ?? "-"}
+                                            </span>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className="px-4 py-4 border border-gray-100 text-theme-sm dark:border-white/[0.05]">
+                                        <div className="flex flex-wrap items-center gap-2">
+                                            <Badge size="sm" color="light">
+                                                {component.inclusion_mode}
                                             </Badge>
-                                        ) : null}
-                                        {component.is_mandatory ? (
-                                            <Badge size="sm" color="warning">
-                                                Mandatory
-                                            </Badge>
-                                        ) : null}
-                                    </div>
-                                </TableCell>
-                                <TableCell
-                                    className="px-4 py-4 border border-gray-100 text-theme-sm text-gray-700 dark:border-white/[0.05] dark:text-gray-300">
-                                    <div className="flex flex-col gap-1">
-                                        <span className="font-medium text-gray-800 dark:text-white/90">
-                                            {component.category_info?.name ?? "-"}
-                                        </span>
-                                        <span className="text-xs text-gray-500 dark:text-gray-400">
-                                            {component.category_info?.category_type_name ?? "-"}
-                                        </span>
-                                    </div>
-                                </TableCell>
-                                <TableCell
-                                    className="px-4 py-4 border border-gray-100 text-theme-sm text-gray-700 dark:border-white/[0.05] dark:text-gray-300">
-                                    <div className="flex flex-col gap-1">
-                                        <span className="font-medium text-gray-800 dark:text-white/90">
-                                            {component.category_info?.product_name ?? "-"}
-                                        </span>
-                                        <span className="text-xs text-gray-500 dark:text-gray-400">
-                                            {component.category_info?.product_code ?? "-"}
-                                        </span>
-                                    </div>
-                                </TableCell>
-                                <TableCell
-                                    className="px-4 py-4 border border-gray-100 text-theme-sm text-gray-700 dark:border-white/[0.05] dark:text-gray-300">
-                                    <div className="flex flex-col gap-1">
-                                        <span className="font-medium text-gray-800 dark:text-white/90">
-                                            {component.category_info?.supplier_name ?? "-"}
-                                        </span>
-                                        <span className="text-xs text-gray-500 dark:text-gray-400">
-                                            {component.category_info?.destination_name ?? "-"}
-                                        </span>
-                                    </div>
-                                </TableCell>
-                                <TableCell
-                                    className="px-4 py-4 border border-gray-100 text-theme-sm text-gray-700 dark:border-white/[0.05] dark:text-gray-300">
-                                    <div className="flex flex-col gap-1">
-                                        <span className="font-medium text-gray-800 dark:text-white/90">
-                                            {renderPricingValue(component.price_estimate?.total_sell_price)}
-                                        </span>
-                                        <span className="text-xs text-gray-500 dark:text-gray-400">
-                                            {component.price_estimate?.confidence_level ??
-                                                component.price_handling}
-                                        </span>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        ))}
+{component.option_group ? (
+                                                <Badge size="sm" color="info">
+                                                    {component.option_group}
+                                                </Badge>
+                                            ) : null}
+                                            {component.is_mandatory ? (
+                                                <Badge size="sm" color="warning">
+                                                    Mandatory
+                                                </Badge>
+                                            ) : null}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className="px-4 py-4 border border-gray-100 text-theme-sm text-gray-700 dark:border-white/[0.05] dark:text-gray-300">
+                                        <div className="flex flex-col gap-1">
+                                            <span className="font-medium text-gray-800 dark:text-white/90">
+                                                {component.category_info?.name ?? "-"}
+                                            </span>
+                                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                                                {component.category_info
+                                                    ?.category_type_name ?? "-"}
+                                            </span>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className="px-4 py-4 border border-gray-100 text-theme-sm text-gray-700 dark:border-white/[0.05] dark:text-gray-300">
+                                        <div className="flex flex-col gap-1">
+                                            <span className="font-medium text-gray-800 dark:text-white/90">
+                                                {component.category_info?.product_name ??
+                                                    "-"}
+                                            </span>
+                                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                                                {component.category_info?.product_code ??
+                                                    "-"}
+                                            </span>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className="px-4 py-4 border border-gray-100 text-theme-sm text-gray-700 dark:border-white/[0.05] dark:text-gray-300">
+                                        <div className="flex flex-col gap-1">
+                                            <span className="font-medium text-gray-800 dark:text-white/90">
+                                                {component.category_info
+                                                    ?.supplier_name ?? "-"}
+                                            </span>
+                                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                                                {component.category_info
+                                                    ?.destination_name ?? "-"}
+                                            </span>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className="px-4 py-4 border border-gray-100 text-theme-sm text-gray-700 dark:border-white/[0.05] dark:text-gray-300">
+                                        <div className="flex flex-col gap-1">
+                                            <span className="font-medium text-gray-800 dark:text-white/90">
+                                                {renderPricingValue(
+                                                    component.price_estimate
+                                                        ?.total_sell_price
+                                                )}
+                                            </span>
+                                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                                                {component.price_estimate
+                                                    ?.confidence_level ??
+                                                    component.price_handling}
+                                            </span>
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            )
+                        )}
                     </TableBody>
                 </Table>
             </div>
@@ -271,8 +271,7 @@ export default function PackageDetails() {
     };
     const infoContent = pkg ? (
         <div className="grid gap-6 lg:grid-cols-2">
-            <div
-                className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/40">
+            <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/40">
                 <h4 className="text-base font-semibold text-gray-800 dark:text-white/90">
                     General
                 </h4>
@@ -285,10 +284,14 @@ export default function PackageDetails() {
                     </div>
                     <div className="flex justify-between gap-4">
                         <dt className="text-gray-500 dark:text-gray-400">Code</dt>
-                        <dd className="text-gray-800 dark:text-white/90">{pkg.code}</dd>
+                        <dd className="text-gray-800 dark:text-white/90">
+                            {pkg.code}
+                        </dd>
                     </div>
                     <div className="flex justify-between gap-4">
-                        <dt className="text-gray-500 dark:text-gray-400">Status</dt>
+                        <dt className="text-gray-500 dark:text-gray-400">
+                            Status
+                        </dt>
                         <dd>
                             <Badge size="sm" color={statusColor}>
                                 {pkg.status}
@@ -296,13 +299,17 @@ export default function PackageDetails() {
                         </dd>
                     </div>
                     <div className="flex justify-between gap-4">
-                        <dt className="text-gray-500 dark:text-gray-400">Highlight</dt>
+                        <dt className="text-gray-500 dark:text-gray-400">
+                            Highlight
+                        </dt>
                         <dd className="text-gray-800 dark:text-white/90">
                             {pkg.highlight ? "Yes" : "No"}
                         </dd>
                     </div>
                     <div className="flex justify-between gap-4">
-                        <dt className="text-gray-500 dark:text-gray-400">Brochure page</dt>
+                        <dt className="text-gray-500 dark:text-gray-400">
+                            Brochure page
+                        </dt>
                         <dd className="text-gray-800 dark:text-white/90">
                             {pkg.brochure_page ?? "-"}
                         </dd>
@@ -310,46 +317,54 @@ export default function PackageDetails() {
                 </dl>
             </div>
 
-        <div
-                className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/40">
+       <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/40">
                 <h4 className="text-base font-semibold text-gray-800 dark:text-white/90">
                     Validity
                 </h4>
                 <dl className="mt-4 space-y-3 text-sm">
                     <div className="flex justify-between gap-4">
-                        <dt className="text-gray-500 dark:text-gray-400">Valid from</dt>
+                        <dt className="text-gray-500 dark:text-gray-400">
+                            Valid from
+                        </dt>
                         <dd className="text-gray-800 dark:text-white/90">
                             {formatDateValue(pkg.valid_from)}
                         </dd>
                     </div>
                     <div className="flex justify-between gap-4">
-                        <dt className="text-gray-500 dark:text-gray-400">Valid to</dt>
+                        <dt className="text-gray-500 dark:text-gray-400">
+                            Valid to
+                        </dt>
                         <dd className="text-gray-800 dark:text-white/90">
                             {formatDateValue(pkg.valid_to)}
                         </dd>
                     </div>
                     <div className="flex justify-between gap-4">
-                        <dt className="text-gray-500 dark:text-gray-400">Min pax</dt>
+                        <dt className="text-gray-500 dark:text-gray-400">
+                            Min pax
+                        </dt>
                         <dd className="text-gray-800 dark:text-white/90">
                             {pkg.min_pax ?? "-"}
                         </dd>
                     </div>
                     <div className="flex justify-between gap-4">
-                        <dt className="text-gray-500 dark:text-gray-400">Max pax</dt>
+                        <dt className="text-gray-500 dark:text-gray-400">
+                            Max pax
+                        </dt>
                         <dd className="text-gray-800 dark:text-white/90">
                             {pkg.max_pax ?? "-"}
                         </dd>
                     </div>
                     <div className="flex justify-between gap-4">
-                        <dt className="text-gray-500 dark:text-gray-400">Published at</dt>
+                        <dt className="text-gray-500 dark:text-gray-400">
+                            Published at
+                        </dt>
                         <dd className="text-gray-800 dark:text-white/90">
                             {formatDateValue(pkg.published_at)}
                         </dd>
                     </div>
                 </dl>
             </div>
-            <div
-                className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/40">
+            <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/40">
                 <h4 className="text-base font-semibold text-gray-800 dark:text-white/90">
                     Description
                 </h4>
@@ -358,16 +373,15 @@ export default function PackageDetails() {
                 </p>
                 {pkg.tags && pkg.tags.length > 0 ? (
                     <div className="mt-4 flex flex-wrap gap-2">
-                        {pkg.tags.map((tag) => (
-                            <Badge key={tag} size="sm" color="gray">
+                        {pkg.tags.map((tag: string) => (
+                            <Badge key={tag} size="sm" color="light">
                                 {tag}
                             </Badge>
                         ))}
                     </div>
                 ) : null}
             </div>
-            <div
-                className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/40">
+            <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/40">
                 <h4 className="text-base font-semibold text-gray-800 dark:text-white/90">
                     Image
                 </h4>
@@ -389,47 +403,61 @@ export default function PackageDetails() {
             </div>
         </div>
     ) : null;
+
     const pricingContent = pkg ? (
         <div className="grid gap-6 lg:grid-cols-2">
-            <div
-                className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/40">
+            <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/40">
                 <h4 className="text-base font-semibold text-gray-800 dark:text-white/90">
                     Pricing policy
                 </h4>
                 {pkg.pricing_policy ? (
                     <dl className="mt-4 space-y-3 text-sm">
                         <div className="flex justify-between gap-4">
-                            <dt className="text-gray-500 dark:text-gray-400">Mode</dt>
+                            <dt className="text-gray-500 dark:text-gray-400">
+                                Mode
+                            </dt>
                             <dd className="text-gray-800 dark:text-white/90">
                                 {pkg.pricing_policy.pricing_mode}
                             </dd>
                         </div>
                         <div className="flex justify-between gap-4">
-                            <dt className="text-gray-500 dark:text-gray-400">Fixed price</dt>
+                            <dt className="text-gray-500 dark:text-gray-400">
+                                Fixed price
+                            </dt>
                             <dd className="text-gray-800 dark:text-white/90">
                                 {pkg.pricing_policy.fixed_price ?? "-"}
                             </dd>
                         </div>
                         <div className="flex justify-between gap-4">
-                            <dt className="text-gray-500 dark:text-gray-400">Base margin %</dt>
+                            <dt className="text-gray-500 dark:text-gray-400">
+                                Base margin %
+                            </dt>
                             <dd className="text-gray-800 dark:text-white/90">
                                 {pkg.pricing_policy.base_margin_pct ?? "-"}
                             </dd>
                         </div>
                         <div className="flex justify-between gap-4">
-                            <dt className="text-gray-500 dark:text-gray-400">Base margin</dt>
+                            <dt className="text-gray-500 dark:text-gray-400">
+                                Base margin
+                            </dt>
                             <dd className="text-gray-800 dark:text-white/90">
                                 {pkg.pricing_policy.base_margin_amount ?? "-"}
                             </dd>
                         </div>
                         <div className="flex justify-between gap-4">
-                            <dt className="text-gray-500 dark:text-gray-400">From price</dt>
+                            <dt className="text-gray-500 dark:text-gray-400">
+                                From price
+                            </dt>
                             <dd className="text-gray-800 dark:text-white/90">
-                                {pkg.pricing_policy.is_from_price ? "Yes" : "No"}
+                                {pkg.pricing_policy.is_from_price
+                                    ? "Yes"
+                                    : "No"}
                             </dd>
                         </div>
                         <div className="flex justify-between gap-4">
-                            <dt className="text-gray-500 dark:text-gray-400">Notes</dt>
+                            <dt className="text-gray-500 dark:text-gray-400">
+                                Notes Moulay
+                            </dt>
                             <dd className="text-gray-800 dark:text-white/90">
                                 {pkg.pricing_policy.notes ?? "-"}
                             </dd>
@@ -441,8 +469,7 @@ export default function PackageDetails() {
                     </p>
                 )}
             </div>
-        <div
-                className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/40">
+        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/40">
                 <h4 className="text-base font-semibold text-gray-800 dark:text-white/90">
                     Pricing summary
                 </h4>
@@ -507,41 +534,50 @@ export default function PackageDetails() {
     ) : null;
     const destinationsContent = pkg ? (
         <div className="grid gap-6 lg:grid-cols-2">
-            {pkg.destinations && pkg.destinations.length > 0 ? (
-                pkg.destinations.map((destination) => (
-                    <div
-                        key={destination.id}
-                        className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/40"
-                    >
-                        <div className="flex items-center justify-between gap-4">
-                            <h4 className="text-base font-semibold text-gray-800 dark:text-white/90">
-                                {destination.destination_name ?? destination.destination_code}
-                            </h4>
-                            {destination.is_primary ? (
-                                <Badge size="sm" color="info">
-                                    Primary
-                                </Badge>
-                                ) : null}
-                          </div>
-                    <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                            {destination.destination_country ?? "-"}
-                            {destination.destination_region
-                                ? ` · ${destination.destination_region}`
-                                : ""}
-                        </p>
-                     </div>
-                    ) : (
-                <div
-                    className="rounded-xl border border-dashed border-gray-200 p-6 text-sm text-gray-500 dark:border-gray-800 dark:text-gray-400">
+            {(pkg.destinationsEnhanced ?? pkg.destinations ?? []).length > 0 ? (
+                (pkg.destinationsEnhanced ?? pkg.destinations ?? []).map(
+                    (
+                        destination: PackageDestinationEnhanced | PackageDestination
+                    ) => {
+                        const isPrimary =
+                            "is_primary" in destination && destination.is_primary;
+
+                        return (
+                            <div
+                                key={destination.id}
+                                className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/40"
+                            >
+                                <div className="flex items-center justify-between gap-4">
+                                    <h4 className="text-base font-semibold text-gray-800 dark:text-white/90">
+                                        {destination.destination_name ??
+                                            destination.destination_code}
+                                    </h4>
+                                    {isPrimary ? (
+                                        <Badge size="sm" color="info">
+                                            Primary
+                                        </Badge>
+                                    ) : null}
+                                </div>
+                                <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                    {destination.destination_country ?? "-"}
+                                    {destination.destination_region
+                                        ? ` · ${destination.destination_region}`
+                                        : ""}
+                                </p>
+                            </div>
+                        );
+                    }
+                )
+            ) : (
+                <div className="rounded-xl border border-dashed border-gray-200 p-6 text-sm text-gray-500 dark:border-gray-800 dark:text-gray-400">
                     No destinations available.
                 </div>
-                 )}
+         )}
         </div>
     ) : null;
-                const metadataContent = pkg ? (
+    const metadataContent = pkg ? (
         <div className="grid gap-6 lg:grid-cols-2">
-            <div
-                className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/40">
+            <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/40">
                 <h4 className="text-base font-semibold text-gray-800 dark:text-white/90">
                     Audit
                 </h4>
@@ -591,15 +627,22 @@ export default function PackageDetails() {
                 </h4>
                 {pkg.meta_info ? (
                     <dl className="mt-4 space-y-3 text-sm">
-                        {Object.entries(pkg.meta_info).map(([key, value]) => (
-                             <div key={key} className="flex justify-between gap-4">
-                                <dt className="text-gray-500 dark:text-gray-400">{key}</dt>
-                                <dd className="text-gray-800 dark:text-white/90">
-                                    {String(value)}
-                                </dd>
-                            </div>
-                        ))}
-                      </dl>
+                        {Object.entries(pkg.meta_info).map(
+                            ([key, value]) => (
+                                <div
+                                    key={key}
+                                    className="flex justify-between gap-4"
+                                >
+                                    <dt className="text-gray-500 dark:text-gray-400">
+                                        {key}
+                                    </dt>
+                                    <dd className="text-gray-800 dark:text-white/90">
+                                        {String(value)}
+                                    </dd>
+                                </div>
+                            )
+                        )}
+                    </dl>
                 ) : (
                     <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
                         No meta info available.
@@ -608,7 +651,8 @@ export default function PackageDetails() {
             </div>
         </div>
     ) : null;
-                const tabContent = {
+
+    const tabContent: Record<TabItem["id"], React.ReactNode> = {
         info: infoContent,
         components: (
             <div className="rounded-xl border border-gray-200 dark:border-gray-800">
@@ -622,10 +666,9 @@ export default function PackageDetails() {
 
     return (
         <>
-            <PageMeta title="Package Details" description="Package details overview"/>
-            <PageBreadcrumb pageTitle="Package Details"/>
-            <div
-                className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6">
+            <PageMeta title="Package Details" description="Package details overview" />
+            <PageBreadcrumb pageTitle="Package Details" />
+            <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
                         {pkg?.name ?? "Package Details"}
@@ -651,8 +694,7 @@ export default function PackageDetails() {
                 {!loading && !error && pkg ? (
                     <div className="mt-6 rounded-xl border border-gray-200 p-6 dark:border-gray-800">
                         <div className="border-b border-gray-200 dark:border-gray-800">
-                            <nav
-                                className="-mb-px flex space-x-2 overflow-x-auto [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-200 dark:[&::-webkit-scrollbar-thumb]:bg-gray-600 dark:[&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar]:h-1.5">
+                            <nav className="-mb-px flex space-x-2 overflow-x-auto [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-200 dark:[&::-webkit-scrollbar-thumb]:bg-gray-600 dark:[&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar]:h-1.5">
                                 {tabs.map((tab) => (
                                     <TabButton
                                         key={tab.id}
