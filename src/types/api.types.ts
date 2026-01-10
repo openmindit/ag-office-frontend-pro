@@ -376,7 +376,80 @@ export interface PackagePricingPolicy {
   created_at: string;
   updated_at: string;
 }
+export interface PackageComponentCategoryInfo {
+  id: string;
+  code?: string | null;
+  name?: string | null;
+  category_type_code?: string | null;
+  category_type_name?: string | null;
+  product_id?: string | null;
+  product_code?: string | null;
+  product_name?: string | null;
+  supplier_id?: string | null;
+  supplier_code?: string | null;
+  supplier_name?: string | null;
+  destination_id?: string | null;
+  destination_code?: string | null;
+  destination_name?: string | null;
+  destination_country?: string | null;
+}
 
+export interface PackageComponentPriceEstimate {
+  estimated_unit_cost?: string | null;
+  estimated_total_cost?: string | null;
+  cost_source?: string | null;
+  unit_sell_price?: string | null;
+  total_sell_price?: string | null;
+  margin_amount?: string | null;
+  margin_percentage?: number | null;
+  contract_id?: string | null;
+  contract_reference?: string | null;
+  contract_item_id?: string | null;
+  supplier_vat_rate?: string | null;
+  supplier_vat_amount?: string | null;
+  sales_vat_rate?: string | null;
+  sales_vat_amount?: string | null;
+  confidence_level?: string | null;
+  pricing_notes?: string | null;
+}
+
+export interface PackageComponentEnhanced extends PackageComponent {
+  category_info?: PackageComponentCategoryInfo | null;
+  price_estimate?: PackageComponentPriceEstimate | null;
+}
+
+export interface PackageDestinationEnhanced {
+  id: string;
+  package_id: string;
+  destination_id: string;
+  destination_code?: string | null;
+  destination_name?: string | null;
+  destination_country?: string | null;
+  destination_region?: string | null;
+  is_primary?: boolean;
+  created_at?: string | null;
+  updated_at?: string | null;
+}
+
+export interface PackagePricingSummary {
+  total_components?: number;
+  included_components?: number;
+  optional_components?: number;
+  total_estimated_cost?: string | null;
+  total_estimated_sell?: string | null;
+  total_estimated_margin?: string | null;
+  average_margin_percentage?: number | null;
+  has_all_prices?: boolean;
+  confidence_level?: string | null;
+  pricing_notes?: string | null;
+}
+
+export interface PackageUserSummary {
+  id: string;
+  first_name?: string | null;
+  last_name?: string | null;
+  email?: string | null;
+}
 export interface Package {
   code: string;
   name: string;
@@ -400,5 +473,17 @@ export interface Package {
   published_by?: string;
   components?: PackageComponent[];
   pricing_policy?: PackagePricingPolicy;
-  destinations?: Destination[];
+  destinations?: PackageDestination[];
+}
+
+export interface PackageEnhanced extends Package {
+  created_by_name?: string | null;
+  updated_by_name?: string | null;
+  published_by_name?: string | null;
+  created_by_user?: PackageUserSummary | null;
+  updated_by_user?: PackageUserSummary | null;
+  published_by_user?: PackageUserSummary | null;
+  components?: PackageComponentEnhanced[];
+  destinationsEnhanced?: PackageDestinationEnhanced[];
+  pricing_summary?: PackagePricingSummary;
 }

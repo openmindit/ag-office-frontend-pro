@@ -1,5 +1,9 @@
 import { apiClient } from "./apiClient";
-import type { PaginatedPackageResponse, Package } from "../types/api.types";
+import type {
+  PaginatedPackageResponse,
+  Package,
+  PackageEnhanced,
+} from "../types/api.types";
 import { APP_CONFIG } from "../config/app.config";
 
 export interface PackageFilters {
@@ -27,6 +31,20 @@ export const packageService = {
 
   async getPackageById(id: string): Promise<Package> {
     const response = await apiClient.get<Package>(APP_CONFIG.endpoints.packages.byId(id));
+    return response.data;
+  },
+async getPackageEnhancedById(
+    id: string,
+    includePricing = true
+  ): Promise<PackageEnhanced> {
+    const params = new URLSearchParams();
+    if (includePricing) {
+      params.append("include_pricing", "true");
+    }
+
+    const response = await apiClient.get<PackageEnhanced>(
+      `${APP_CONFIG.endpoints.packages.enhancedById(id)}?${params.toString()}`
+    );
     return response.data;
   },
 };

@@ -42,6 +42,7 @@ export const APP_CONFIG = {
         packages: {
             list: '/packages',
             byId: (id: string) => `/packages/${id}`,
+            enhancedById: (id: string) => `/packages/${id}/enhanced`,
         },
     },
     // Pagination defaults
