@@ -89,6 +89,11 @@ export default function PackageDetails() {
                     packageId
                 );
                 if (isMounted) {
+                    setPkg(result);
+                }
+            } catch (err) {
+                if (isMounted) {
+                    setPkg(null);
                     setError("Unable to load package details.");
                 }
             } finally {
