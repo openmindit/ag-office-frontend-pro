@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router";
 import {
   Table,
   TableBody,
@@ -222,9 +223,14 @@ export default function ProductListTable({
                     </TableCell>
                     <TableCell className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]">
                       <div className="flex flex-col">
-                        <span className="text-sm font-medium text-gray-800 dark:text-white/90">
+                        <Link
+                          to={`/products/${encodeURIComponent(
+                            product.name || ""
+                          )}`}
+                          className="text-sm font-medium text-gray-800 hover:text-brand-500 dark:text-white/90 dark:hover:text-brand-400"
+                        >
                           {product.name || "—"}
-                        </span>
+                        </Link>
                         {product.description ? (
                           <span className="text-xs text-gray-500 dark:text-gray-400">
                             {product.description}

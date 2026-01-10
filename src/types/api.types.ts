@@ -243,6 +243,22 @@ export interface SupplierProductWithRelations extends SupplierProduct {
   supplier?: Supplier;
 }
 
+export interface ProductCategory {
+  code: string;
+  name: string;
+  description?: string | null;
+  capacity?: number | null;
+  unit?: string | null;
+  specifications?: Record<string, unknown> | null;
+  id: string;
+  supplier_product_id: string;
+  category_type_id: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+  category_type?: CategoryType;
+}
+
 export interface Contract {
   id: string;
   code: string;

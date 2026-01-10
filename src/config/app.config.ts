@@ -23,6 +23,9 @@ export const APP_CONFIG = {
         products: {
             list: '/products',
             bySupplier: (supplierId: string) => `/products/by-supplier/${supplierId}`,
+            byId: (productId: string) => `/products/${productId}`,
+            categoriesByProduct: (productId: string) =>
+                `/products/${productId}/categories`,
         },
         media: {
             bySupplier: (supplierId: string) => `/media/supplier/${supplierId}`,
