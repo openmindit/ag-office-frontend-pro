@@ -27,6 +27,14 @@ export const APP_CONFIG = {
             categoriesByProduct: (productId: string) =>
                 `/products/${productId}/categories`,
         },
+        contracts: {
+            list: '/contracts',
+        },
+        packages: {
+            list: '/packages',
+            byId: (id: string) => `/packages/${id}`,
+            enhancedById: (id: string) => `/packages/${id}/enhanced`,
+        },
         media: {
             bySupplier: (supplierId: string) => `/media/supplier/${supplierId}`,
         },
@@ -42,11 +50,7 @@ export const APP_CONFIG = {
         userProfiles: {
             me: '/user-profiles/me',
         },
-        packages: {
-            list: '/packages',
-            byId: (id: string) => `/packages/${id}`,
-            enhancedById: (id: string) => `/packages/${id}/enhanced`,
-        },
+
     },
     // Pagination defaults
     pagination: {
