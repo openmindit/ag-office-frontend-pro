@@ -225,7 +225,7 @@ export default function ProductListTable({
                       <div className="flex flex-col">
                         <Link
                           to={`/products/${encodeURIComponent(
-                            product.name || ""
+                            String(product.id ?? "")
                           )}`}
                           className="text-sm font-medium text-gray-800 hover:text-brand-500 dark:text-white/90 dark:hover:text-brand-400"
                         >

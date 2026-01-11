@@ -117,7 +117,7 @@ export default function App() {
                             <Route path="/user-profile" element={<UserProfile/>}/>
                             <Route path="/packages" element={<PackageList/>}/>
                             <Route path="/packages/:packageId" element={<PackageDetails/>}/>
-                            <Route path="/products/:productName" element={<ProductDetails/>}/>
+                            <Route path="/products/:productId" element={<ProductDetails/>}/>
                             {/* ================= EXEMPLES ================= */}
                             <Route index path="/" element={<Ecommerce/>}/>
                             <Route path="/analytics" element={<Analytics/>}/>
