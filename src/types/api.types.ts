@@ -289,6 +289,75 @@ export interface SupplierContract {
   updated_at: string;
 }
 
+export interface ContractSupplierSummary {
+  id: string;
+  name: string;
+  supplier_type?: string | null;
+}
+
+export interface ContractProductSummary {
+  id: string;
+  name: string;
+  product_type: string;
+  category: string;
+}
+
+export interface ContractPrice {
+  id: string;
+  contract_item_id: string;
+  amount: string;
+  currency: string;
+  pricing_unit: string;
+  min_occupancy: number;
+  max_occupancy: number;
+  valid_from: string;
+  valid_to: string;
+  priority: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ContractItemEnhanced {
+  id: string;
+  contract_id: string;
+  product_category_id: string;
+  pricing_model: string;
+  currency: string;
+  min_qty: number;
+  max_qty: number;
+  conditions?: string | null;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+  product?: ContractProductSummary;
+  prices: ContractPrice[];
+}
+
+export interface ContractEnhanced {
+  id: string;
+  contract_number: string;
+  code: string;
+  supplier_id: string;
+  contract_type: string;
+  status: string;
+  priority: number;
+  version: number;
+  signature_date?: string | null;
+  valid_from?: string | null;
+  valid_to?: string | null;
+  terminated_at?: string | null;
+  auto_renew: boolean;
+  is_cumulative: boolean;
+  notes?: string | null;
+  created_at: string;
+  updated_at: string;
+  supplier?: ContractSupplierSummary;
+  items: ContractItemEnhanced[];
+  total_items: number;
+  total_prices: number;
+  active_items: number;
+}
+
 // Types pour les réponses API avec pagination
 export interface PaginatedResponse<T> {
   items: T[];

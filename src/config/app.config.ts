@@ -29,6 +29,7 @@ export const APP_CONFIG = {
         },
         contracts: {
             list: '/contracts',
+            enhancedById: (id: string) => `/contracts/enhanced/${id}`,
         },
         packages: {
             list: '/packages',

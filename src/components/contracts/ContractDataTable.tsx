@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router";
 import {
   Table,
   TableBody,
@@ -274,9 +275,12 @@ export default function ContractDataTable({
                           />
                         </div>
                         <div>
-                          <p className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                           <Link
+                            to={`/contracts/${contract.id}`}
+                            className="block font-medium text-gray-800 text-theme-sm hover:text-brand-500 dark:text-white/90 dark:hover:text-brand-400"
+                          >
                             {contract.name}
-                          </p>
+                          </Link>
                           <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
                             {contract.code}
                           </span>

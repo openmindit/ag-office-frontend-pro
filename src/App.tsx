@@ -90,6 +90,7 @@ import UserProfile from "./pages/Users/UserProfile.tsx";
 import PackageList from "./pages/Packages/PackageList";
 import PackageDetails from "./pages/Packages/PackageDetails";
 import ProductDetails from "./pages/Products/ProductDetails";
+import ContractDetails from "./pages/Contracts/ContractDetails";
 
 export default function App() {
     return (
@@ -112,6 +113,7 @@ export default function App() {
                             <Route path="/roles" element={<RolesList/>}/>
                             <Route path="/permissions" element={<PermissionsList/>}/>
                             <Route path="/contracts" element={<ContractsList/>}/>
+                            <Route path="/contracts/:contractId" element={<ContractDetails/>}/>
                             <Route path="/products" element={<ProductsList/>}/>
                             <Route path="/app-config" element={<ApplicationConfigPage/>}/>
                             <Route path="/user-profile" element={<UserProfile/>}/>
