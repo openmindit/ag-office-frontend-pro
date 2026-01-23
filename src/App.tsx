@@ -91,6 +91,7 @@ import PackageList from "./pages/Packages/PackageList";
 import PackageDetails from "./pages/Packages/PackageDetails";
 import ProductDetails from "./pages/Products/ProductDetails";
 import ContractDetails from "./pages/Contracts/ContractDetails";
+import ActivityLogsPage from "./pages/Administration/ActivityLogsPage.tsx";
 
 export default function App() {
     return (
@@ -116,6 +117,7 @@ export default function App() {
                             <Route path="/contracts/:contractId" element={<ContractDetails/>}/>
                             <Route path="/products" element={<ProductsList/>}/>
                             <Route path="/app-config" element={<ApplicationConfigPage/>}/>
+                            <Route path="/audit" element={<ActivityLogsPage/>}/>
                             <Route path="/user-profile" element={<UserProfile/>}/>
                             <Route path="/packages" element={<PackageList/>}/>
                             <Route path="/packages/:packageId" element={<PackageDetails/>}/>

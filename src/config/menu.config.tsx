@@ -145,6 +145,13 @@ export const MENU_SECTIONS: MenuSection[] = [
                         path: "/app-config",
                         permissions: ["system_config:read"]
                     },
+                    {
+                        key: "administration-audit",
+                        name: "audit",
+                        icon: <GridIcon/>,
+                        path: "/audit",
+                        permissions: ["system_config:read"]
+                    },
                 ]
             },
         ],

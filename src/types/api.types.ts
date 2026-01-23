@@ -572,3 +572,4 @@ export interface PackageEnhanced extends Package {
   destinationsEnhanced?: PackageDestinationEnhanced[];
   pricing_summary?: PackagePricingSummary;
 }
+
