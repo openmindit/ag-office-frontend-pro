@@ -246,33 +246,26 @@ const AppSidebar: React.FC = () => {
           !isExpanded && !isHovered ? "xl:justify-center" : "justify-start"
         }`}
       >
-        <Link to="/">
+
           {isExpanded || isHovered || isMobileOpen ? (
             <>
-              <img
-                className="dark:hidden"
-                src="/images/logo/logo.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
-              <img
-                className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
+              <div className="flex justify-center mb-6">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-9 h-9 text-l font-bold text-white rounded-lg bg-brand-500">
+                AG
+              </div>
+              <span className="text-xl font-bold text-gray-800 dark:text-white" style={{letterSpacing: '0.05rem' }}>
+                AG Office
+              </span>
+            </div>
+          </div>
             </>
           ) : (
-            <img
-              src="/images/logo/logo-icon.svg"
-              alt="Logo"
-              width={32}
-              height={32}
-            />
+            <div className="flex items-center justify-center w-9 h-9 text-l font-bold text-white rounded-lg bg-brand-500">
+                AG
+              </div>
           )}
-        </Link>
+
       </div>
       <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
         <nav className="mb-6">

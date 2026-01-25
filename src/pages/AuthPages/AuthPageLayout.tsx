@@ -15,18 +15,20 @@ export default function AuthLayout({
         <div className="items-center hidden w-full h-full lg:w-1/2 bg-brand-950 dark:bg-white/5 lg:grid">
           <div className="relative flex items-center justify-center z-1">
             {/* <!-- ===== Common Grid Shape Start ===== --> */}
-            <GridShape />
-            <div className="flex flex-col items-center max-w-xs">
-              <Link to="/" className="block mb-4">
-                <img
-                  width={231}
-                  height={48}
-                  src="/images/logo/auth-logo.svg"
-                  alt="Logo"
-                />
-              </Link>
-              <p className="text-center text-gray-400 dark:text-white/60">
-                Free and Open-Source Tailwind CSS Admin Dashboard Template
+
+            <div className="flex flex-col items-center max-w-md">
+            <div className="flex justify-center mb-6">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center justify-center w-12 h-12 text-xl font-bold text-white rounded-lg bg-brand-500" >
+                  AG
+                </div>
+                <span className="text-3xl font-bold text-white dark:text-white" style={{letterSpacing: '0.2rem' }}>
+                  AG Office
+                </span>
+              </div>
+          </div>
+              <p className="text-2xl text-center text-gray-400 dark:text-white/60" style={{ fontVariant: 'small-caps', letterSpacing: '0.2rem' }}>
+                le compagnon du quotidien des tour-opérateurs golf
               </p>
             </div>
           </div>
