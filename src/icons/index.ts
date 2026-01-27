@@ -1,3 +1,17 @@
+/* From https://tabler.io/icons */
+import { ReactComponent as AdjustmentsIcon } from "./adjustments.svg?react";
+import { ReactComponent as PackagesIcon } from "./packages.svg?react";
+import { ReactComponent as ContractsIcon } from "./contracts.svg?react";
+import { ReactComponent as ProductsIcon } from "./products.svg?react";
+import { ReactComponent as SuppliersIcon } from "./suppliers.svg?react";
+import { ReactComponent as ClientsIcon } from "./clients.svg?react";
+import { ReactComponent as FoldersIcon } from "./folders.svg?react";
+import { ReactComponent as VouchersIcon } from "./vouchers.svg?react";
+import { ReactComponent as ReservationsIcon } from "./reservations.svg?react";
+import { ReactComponent as QuotesIcon } from "./quotes.svg?react";
+import { ReactComponent as FollowUpIcon } from "./controle-de-qualite.svg?react";
+
+
 import { ReactComponent as PlusIcon } from "./plus.svg?react";
 import { ReactComponent as CloseIcon } from "./close.svg?react";
 import { ReactComponent as BoxIcon } from "./box.svg?react";
@@ -120,4 +134,16 @@ export {
   HorizontaLDots,
   ChevronUpIcon,
   ChatIcon,
+  /* used */
+  AdjustmentsIcon,
+  PackagesIcon,
+  ContractsIcon,
+  ProductsIcon,
+  SuppliersIcon,
+    ClientsIcon,
+    FoldersIcon,
+    VouchersIcon,
+    ReservationsIcon,
+    QuotesIcon,
+    FollowUpIcon,
 };

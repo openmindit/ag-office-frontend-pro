@@ -1,10 +1,10 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { AppConfiguration } from "../types/api.types";
+import type { Configuration } from "../types/api.types";
 
 interface ConfigurationState {
-    configuration: AppConfiguration | null;
-    setConfiguration: (configuration: AppConfiguration) => void;
+    configuration: Configuration | null;
+    setConfiguration: (configuration: Configuration) => void;
 }
 
 export const useConfigurationStore = create<ConfigurationState>()(

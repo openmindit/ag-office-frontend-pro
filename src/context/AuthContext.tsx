@@ -7,12 +7,11 @@ import i18n from "../i18n";
 
 export const loginAndLoadContext = async (
     email: string,
-    password: string
+     password: string,
+    rememberMe: boolean = false
 ) => {
-    const {access_token} = await authService.login(email, password);
-
     // 🔐 stocker le token
-    localStorage.setItem("access_token", access_token);
+   const {access_token} = await authService.login(email, password, rememberMe);
 
     // 👤 récupérer l'utilisateur
     const user = await authService.me();

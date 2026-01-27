@@ -37,7 +37,7 @@ export default function SignInForm() {
 
     try {
       setIsSubmitting(true);
-      await loginAndLoadContext(email, password);
+      await loginAndLoadContext(email, password, isChecked);
       navigate(from, { replace: true });
     } catch (error) {
       setErrorMessage(

@@ -88,16 +88,14 @@ const AppHeader: React.FC = () => {
           </button>
 
           <Link to="/" className="xl:hidden">
-            <img
-              className="dark:hidden"
-              src="./images/logo/logo.svg"
-              alt="Logo"
-            />
-            <img
-              className="hidden dark:block"
-              src="./images/logo/logo-dark.svg"
-              alt="Logo"
-            />
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-9 h-9 text-l font-bold text-white rounded-lg bg-brand-500">
+                AG
+              </div>
+              <span className="text-xl font-bold text-gray-800 dark:text-white" style={{letterSpacing: '0.05rem' }}>
+                AG Office
+              </span>
+            </div>
           </Link>
 
           <button

@@ -16,6 +16,18 @@ import {
     TableIcon,
     TaskIcon,
     UserCircleIcon,
+    /* Used */
+    AdjustmentsIcon,
+    PackagesIcon,
+    ContractsIcon,
+    ProductsIcon,
+    SuppliersIcon,
+    ClientsIcon,
+    FoldersIcon,
+    VouchersIcon,
+    ReservationsIcon,
+    QuotesIcon,
+    FollowUpIcon,
 } from "../icons";
 
 
@@ -43,7 +55,7 @@ export const MENU_SECTIONS: MenuSection[] = [
             {
                 key: "follow-up",
                 name: "follow up",
-                icon: <GridIcon/>,
+                icon: <FollowUpIcon/>,
                 subItems: [
                     {key: "follow-up-dashboard", name: "dashboard", icon: <GridIcon/>, path: "/",},
                     {key: "follow-up-tasks", name: "tasks", icon: <GridIcon/>},
@@ -62,19 +74,19 @@ export const MENU_SECTIONS: MenuSection[] = [
             {
                 key: "suppliers",
                 name: "suppliers",
-                icon: <GridIcon/>,
+                icon: <SuppliersIcon/>,
                 path: "/suppliers",
                 permissions: ["suppliers:read"]
             },
-            {key: "products", name: "products", icon: <GridIcon/>, path: "/products", permissions: ["products:read"]},
+            {key: "products", name: "products", icon: <ProductsIcon/>, path: "/products", permissions: ["products:read"]},
             {
                 key: "contracts",
                 name: "contracts",
-                icon: <GridIcon/>,
+                icon: <ContractsIcon/>,
                 path: "/contracts",
                 permissions: ["contracts:read"]
             },
-            {key: "packages", name: "packages", icon: <GridIcon/>, path: "/packages", permissions: ["packages:read"]},
+            {key: "packages", name: "packages", icon: <PackagesIcon/>, path: "/packages", permissions: ["packages:read"]},
         ],
     },
 
@@ -82,11 +94,11 @@ export const MENU_SECTIONS: MenuSection[] = [
         key: "sales",
         label: "Sales",
         items: [
-            {key: "sales-clients", name: "clients", icon: <GridIcon/>, path: "/clients"},
-            {key: "sales-cases", name: "booking files", icon: <GridIcon/>, path: "/cases"},
-            {key: "sales-quotes", name: "quotes", icon: <GridIcon/>, path: "/quotes"},
-            {key: "sales-bookings", name: "bookings", icon: <GridIcon/>, path: "/bookings"},
-            {key: "sales-vouchers", name: "vouchers", icon: <GridIcon/>, path: "/vouchers"},
+            {key: "sales-clients", name: "clients", icon: <ClientsIcon/>, path: "/clients"},
+            {key: "sales-cases", name: "booking files", icon: <FoldersIcon/>, path: "/cases"},
+            {key: "sales-quotes", name: "quotes", icon: <QuotesIcon/>, path: "/quotes"},
+            {key: "sales-bookings", name: "bookings", icon: <ReservationsIcon/>, path: "/bookings"},
+            {key: "sales-vouchers", name: "vouchers", icon: <VouchersIcon/>, path: "/vouchers"},
         ],
     },
 
@@ -115,7 +127,7 @@ export const MENU_SECTIONS: MenuSection[] = [
             {
                 key: "administration",
                 name: "administration",
-                icon: <GridIcon/>,
+                icon: <AdjustmentsIcon/>,
                 subItems: [
                     {
                         key: "administration-users",
@@ -127,7 +139,7 @@ export const MENU_SECTIONS: MenuSection[] = [
                     {
                         key: "administration-roles",
                         name: "roles",
-                        icon: <GridIcon/>,
+                        icon: <AdjustmentsIcon/>,
                         path: "/roles",
                         permissions: ["roles:read"]
                     },
@@ -141,7 +153,7 @@ export const MENU_SECTIONS: MenuSection[] = [
                     {
                         key: "administration-app-config",
                         name: "app config",
-                        icon: <GridIcon/>,
+                        icon: <AdjustmentsIcon/>,
                         path: "/app-config",
                         permissions: ["system_config:read"]
                     },
