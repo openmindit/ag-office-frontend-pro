@@ -35,6 +35,7 @@ type SupplierDataTableProps = {
     checked: boolean
   ) => void;
   onResetFilters: () => void;
+  onSelectionChange?: (selectedCount: number) => void;
 };
 
 export default function SupplierDataTable({
@@ -52,6 +53,7 @@ export default function SupplierDataTable({
   onResetFilters,
   total,
   onPageChange,
+  onSelectionChange,
 }: SupplierDataTableProps) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
@@ -59,6 +61,14 @@ export default function SupplierDataTable({
   const filterRef = useRef<HTMLDivElement>(null);
   const startIndex = total === 0 ? 0 : (page - 1) * pageSize + 1;
   const endIndex = Math.min(page * pageSize, total);
+  const formatWebsiteHref = (website?: string) => {
+    if (!website) {
+      return undefined;
+    }
+    return website.startsWith("http://") || website.startsWith("https://")
+      ? website
+      : `https://${website}`;
+  };
 
   const handlePageChange = (nextPage: number) => {
     if (nextPage >= 1 && nextPage <= totalPages) {
@@ -95,6 +105,14 @@ export default function SupplierDataTable({
       return nextSelected;
     });
   };
+
+  useEffect(() => {
+    setSelectedIds(new Set());
+  }, [suppliers]);
+
+  useEffect(() => {
+    onSelectionChange?.(selectedIds.size);
+  }, [onSelectionChange, selectedIds]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -324,7 +342,7 @@ export default function SupplierDataTable({
                 </TableCell>
                 <TableCell
                   isHeader
-                  className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]"
+                  className="px-4 py-3 border border-gray-100 dark:border-white/[0.05] text-center"
                 >
                   <p className="font-medium text-gray-700 text-theme-xs dark:text-gray-400">
                     Products
@@ -332,7 +350,7 @@ export default function SupplierDataTable({
                 </TableCell>
                 <TableCell
                   isHeader
-                  className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]"
+                  className="px-4 py-3 border border-gray-100 dark:border-white/[0.05] text-center"
                 >
                   <p className="font-medium text-gray-700 text-theme-xs dark:text-gray-400">
                     Contracts
@@ -411,10 +429,42 @@ export default function SupplierDataTable({
                   </TableCell>
                   <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap">
                     <div>
-                      <p>{supplier.email ?? "-"}</p>
-                      <span className="text-sm text-gray-500 dark:text-gray-400">
-                        {supplier.phone ?? "-"}
-                      </span>
+                      {supplier.email ? (
+                        <a
+                          className="text-gray-800 hover:text-brand-500 dark:text-gray-200 dark:hover:text-brand-400"
+                          href={`mailto:${supplier.email}`}
+                        >
+                          {supplier.email}
+                        </a>
+                      ) : (
+                        <p>-</p>
+                      )}
+                      {supplier.phone ? (
+                        <a
+                          className="block text-sm text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400"
+                          href={`tel:${supplier.phone}`}
+                        >
+                          {supplier.phone}
+                        </a>
+                      ) : (
+                        <span className="block text-sm text-gray-500 dark:text-gray-400">
+                          -
+                        </span>
+                      )}
+                      {supplier.website ? (
+                        <a
+                          className="block text-sm text-brand-600 hover:text-brand-500 dark:text-brand-400 dark:hover:text-brand-300"
+                          href={formatWebsiteHref(supplier.website)}
+                          rel="noreferrer"
+                          target="_blank"
+                        >
+                          {supplier.website}
+                        </a>
+                      ) : (
+                        <span className="block text-sm text-gray-500 dark:text-gray-400">
+                          -
+                        </span>
+                      )}
                     </div>
                   </TableCell>
                   <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-white/90 whitespace-nowrap">
@@ -431,7 +481,7 @@ export default function SupplierDataTable({
                     </Badge>
                   </TableCell>
                     <TableCell
-                    className={`px-4 py-4 font-normal border border-gray-100 dark:border-white/[0.05] text-theme-sm whitespace-nowrap ${
+                    className={`px-4 py-4 font-normal border border-gray-100 dark:border-white/[0.05] text-theme-sm whitespace-nowrap text-center ${
                       productsHasZero
                         ? "text-red-600 dark:text-red-400"
                         : "text-gray-800 dark:text-white/90"
@@ -440,7 +490,7 @@ export default function SupplierDataTable({
                     {activeProducts} / {totalProducts}
                   </TableCell>
                   <TableCell
-                    className={`px-4 py-4 font-normal border border-gray-100 dark:border-white/[0.05] text-theme-sm whitespace-nowrap ${
+                    className={`px-4 py-4 font-normal border border-gray-100 dark:border-white/[0.05] text-theme-sm whitespace-nowrap text-center ${
                       contractsHasZero
                         ? "text-red-600 dark:text-red-400"
                         : "text-gray-800 dark:text-white/90"

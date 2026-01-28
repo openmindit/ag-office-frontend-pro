@@ -5,6 +5,7 @@ interface DropdownItemProps {
   tag?: "a" | "button";
   to?: string;
   onClick?: () => void;
+  disabled?: boolean;
   onItemClick?: () => void;
   baseClassName?: string;
   className?: string;
@@ -14,6 +15,7 @@ interface DropdownItemProps {
 export const DropdownItem: React.FC<DropdownItemProps> = ({
   tag = "button",
   to,
+  disabled = false,
   onClick,
   onItemClick,
   baseClassName = "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900",
@@ -23,6 +25,10 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
   const combinedClasses = `${baseClassName} ${className}`.trim();
 
   const handleClick = (event: React.MouseEvent) => {
+    if (disabled) {
+      event.preventDefault();
+      return;
+    }
     if (tag === "button") {
       event.preventDefault();
     }
@@ -32,14 +38,26 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
 
   if (tag === "a" && to) {
     return (
-      <Link to={to} className={combinedClasses} onClick={handleClick}>
+      <Link
+        to={to}
+        className={combinedClasses}
+        onClick={handleClick}
+        aria-disabled={disabled}
+        tabIndex={disabled ? -1 : undefined}
+      >
         {children}
       </Link>
     );
   }
 
   return (
-    <button onClick={handleClick} className={combinedClasses}>
+    <button
+      onClick={handleClick}
+      className={combinedClasses}
+      disabled={disabled}
+      aria-disabled={disabled}
+      type="button"
+    >
       {children}
     </button>
   );

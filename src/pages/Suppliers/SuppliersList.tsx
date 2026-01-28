@@ -19,6 +19,7 @@ export default function SuppliersList() {
     inactive: true,
   });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedCount, setSelectedCount] = useState(0);
   const fetchSuppliers = useCallback(async () => {
     setLoading(true);
     try {
@@ -81,7 +82,10 @@ export default function SuppliersList() {
   const closeDropdown = () => {
     setIsDropdownOpen(false);
   };
-
+  const hasSelection = selectedCount > 0;
+  const selectionItemClasses = hasSelection
+    ? ""
+    : "cursor-not-allowed text-gray-400 hover:bg-transparent dark:text-gray-500";
   return (
       <>
       <PageMeta
@@ -128,37 +132,41 @@ export default function SuppliersList() {
             <Dropdown
             isOpen={isDropdownOpen}
             onClose={closeDropdown}
-            className="absolute left-0 top-full z-40 mt-2 w-full min-w-[200px] rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-[#1E2635]"
+            className="absolute right-0 top-full z-40 mt-2 w-full min-w-[200px] rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-[#1E2635]"
           >
             <ul className="flex flex-col gap-1">
               <li>
                 <DropdownItem
-                  onItemClick={closeDropdown}
-                  className="flex rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5"
+                  onItemClick={hasSelection ? closeDropdown : undefined}
+                  disabled={!hasSelection}
+                  className={`flex rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5 ${selectionItemClasses}`}
                 >
                   Add
                 </DropdownItem>
               </li>
               <li>
                 <DropdownItem
-                  onItemClick={closeDropdown}
-                  className="flex rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5"
+                  onItemClick={hasSelection ? closeDropdown : undefined}
+                  disabled={!hasSelection}
+                  className={`flex rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5 ${selectionItemClasses}`}
                 >
                   Delete
                 </DropdownItem>
               </li>
               <li>
                 <DropdownItem
-                  onItemClick={closeDropdown}
-                  className="flex rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5"
+                  onItemClick={hasSelection ? closeDropdown : undefined}
+                  disabled={!hasSelection}
+                  className={`flex rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5 ${selectionItemClasses}`}
                 >
                   Active
                 </DropdownItem>
               </li>
               <li>
                 <DropdownItem
-                  onItemClick={closeDropdown}
-                  className="flex rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5"
+                  onItemClick={hasSelection ? closeDropdown : undefined}
+                  disabled={!hasSelection}
+                  className={`flex rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5 ${selectionItemClasses}`}
                 >
                   Desactive
                 </DropdownItem>
