@@ -5,6 +5,7 @@ import SupplierDataTable from "../../components/suppliers/SupplierDataTable";
 import type { Supplier } from "../../types/api.types";
 import { Dropdown } from "../../components/ui/dropdown/Dropdown";
 import { DropdownItem } from "../../components/ui/dropdown/DropdownItem";
+import { MoreDotIcon } from "../../icons";
 
 export default function SuppliersList() {
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
@@ -75,10 +76,6 @@ export default function SuppliersList() {
     setCountry("");
   };
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen((prev) => !prev);
-  };
-
   const closeDropdown = () => {
     setIsDropdownOpen(false);
   };
@@ -103,30 +100,16 @@ export default function SuppliersList() {
         >
           Suppliers
         </h2>
-        <div className="relative inline-block">
+        <div
+          className="relative inline-block"
+          onMouseEnter={() => setIsDropdownOpen(true)}
+          onMouseLeave={closeDropdown}
+        >
           <button
-            onClick={toggleDropdown}
             className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 rounded-lg dropdown-toggle bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+            type="button"
           >
-            Actions
-            <svg
-              className={`duration-200 ease-in-out stroke-current ${
-                isDropdownOpen ? "rotate-180" : ""
-              }`}
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M4.79199 7.396L10.0003 12.6043L15.2087 7.396"
-                stroke=""
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <MoreDotIcon className="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100 size-6" />
           </button>
 
             <Dropdown
@@ -137,9 +120,8 @@ export default function SuppliersList() {
             <ul className="flex flex-col gap-1">
               <li>
                 <DropdownItem
-                  onItemClick={hasSelection ? closeDropdown : undefined}
-                  disabled={!hasSelection}
-                  className={`flex rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5 ${selectionItemClasses}`}
+                   onItemClick={closeDropdown}
+                  className="flex rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5"
                 >
                   Add
                 </DropdownItem>
