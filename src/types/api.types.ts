@@ -162,6 +162,10 @@ export interface Supplier {
   created_at: string;
   updated_at: string;
   created_by?: string;
+  active_contracts_count?: number;
+  total_contracts_count?: number;
+  active_products_count?: number;
+  total_products_count?: number;
 }
 
 export interface SupplierContact {
@@ -572,4 +576,3 @@ export interface PackageEnhanced extends Package {
   destinationsEnhanced?: PackageDestinationEnhanced[];
   pricing_summary?: PackagePricingSummary;
 }
-

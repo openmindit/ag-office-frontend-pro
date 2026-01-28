@@ -327,6 +327,22 @@ export default function SupplierDataTable({
                   className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]"
                 >
                   <p className="font-medium text-gray-700 text-theme-xs dark:text-gray-400">
+                    Products
+                  </p>
+                </TableCell>
+                <TableCell
+                  isHeader
+                  className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]"
+                >
+                  <p className="font-medium text-gray-700 text-theme-xs dark:text-gray-400">
+                    Contracts
+                  </p>
+                </TableCell>
+                <TableCell
+                  isHeader
+                  className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]"
+                >
+                  <p className="font-medium text-gray-700 text-theme-xs dark:text-gray-400">
                     Action
                   </p>
                 </TableCell>
@@ -336,7 +352,7 @@ export default function SupplierDataTable({
               {loading && suppliers.length === 0 ? (
                 <TableRow>
                   <TableCell
-                    colSpan={5}
+                     colSpan={7}
                     className="px-4 py-6 text-center text-sm text-gray-500 dark:text-gray-400"
                   >
                     Loading suppliers...
@@ -346,7 +362,7 @@ export default function SupplierDataTable({
               {!loading && suppliers.length === 0 ? (
                 <TableRow>
                   <TableCell
-                    colSpan={5}
+                     colSpan={7}
                     className="px-4 py-6 text-center text-sm text-gray-500 dark:text-gray-400"
                   >
                     No suppliers found.
@@ -355,7 +371,14 @@ export default function SupplierDataTable({
               ) : null}
               {suppliers.map((supplier) => {
                 const isSelected = selectedIds.has(supplier.id);
-
+                const activeProducts = supplier.active_products_count ?? 0;
+                const totalProducts = supplier.total_products_count ?? 0;
+                const activeContracts = supplier.active_contracts_count ?? 0;
+                const totalContracts = supplier.total_contracts_count ?? 0;
+                const productsHasZero =
+                  activeProducts === 0 || totalProducts === 0;
+                const contractsHasZero =
+                  activeContracts === 0 || totalContracts === 0;
                 return (
                   <TableRow
                     key={supplier.id}
@@ -406,6 +429,24 @@ export default function SupplierDataTable({
                     <Badge size="sm" color={supplier.is_active ? "success" : "error"}>
                       {supplier.is_active ? "Active" : "Inactive"}
                     </Badge>
+                  </TableCell>
+                    <TableCell
+                    className={`px-4 py-4 font-normal border border-gray-100 dark:border-white/[0.05] text-theme-sm whitespace-nowrap ${
+                      productsHasZero
+                        ? "text-red-600 dark:text-red-400"
+                        : "text-gray-800 dark:text-white/90"
+                    }`}
+                  >
+                    {activeProducts} / {totalProducts}
+                  </TableCell>
+                  <TableCell
+                    className={`px-4 py-4 font-normal border border-gray-100 dark:border-white/[0.05] text-theme-sm whitespace-nowrap ${
+                      contractsHasZero
+                        ? "text-red-600 dark:text-red-400"
+                        : "text-gray-800 dark:text-white/90"
+                    }`}
+                  >
+                    {activeContracts} / {totalContracts}
                   </TableCell>
                   <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-white/90 whitespace-nowrap">
                     <div className="flex items-center w-full gap-2">
